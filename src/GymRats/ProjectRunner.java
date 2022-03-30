@@ -12,13 +12,16 @@ public class ProjectRunner {
 	public static void main(String[] args) throws ClassNotFoundException {
 		//addUser();
 		//getUsers();
-		getAllWorkouts();
+		//getAllWorkouts();
+		//deleteUser();
+		//getUsers();
 	}
 
 	public static void getAllWorkouts() throws ClassNotFoundException {
 		Scanner scan = new Scanner(System.in);
-		System.out.println("Enter your User Id: ");
+		System.out.print("Enter your User Id: ");
 		int user_id = scan.nextInt();
+		scan.close();
 		boolean found = false;
 		String sqlSelectAllPersons = "SELECT * FROM user_workout";
 		String connectionUrl = "jdbc:mysql://127.0.0.1:3306/gymrats";
@@ -77,6 +80,23 @@ public class ProjectRunner {
 
 	public static void addUser() throws ClassNotFoundException {
 		String sqlSelectAllPersons = "INSERT INTO user (FName, LName, Username, Password) VALUES ('Evan', 'McKnight', 'user1', '123password')";
+		String connectionUrl = "jdbc:mysql://127.0.0.1:3306/gymrats";
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		try (Connection conn = DriverManager.getConnection(connectionUrl, "root", "382682498Mck!");
+				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);) {
+			ps.execute();
+		} catch (SQLException e) {
+			System.out.println(e);
+			// handle the exception
+		}
+	}
+	
+	public static void deleteUser() throws ClassNotFoundException {
+		Scanner scan = new Scanner(System.in);
+		System.out.print("Enter User Id to remove: ");
+		int deleted = scan.nextInt();
+		scan.close();
+		String sqlSelectAllPersons = "DELETE FROM user WHERE User_Id = " + deleted;
 		String connectionUrl = "jdbc:mysql://127.0.0.1:3306/gymrats";
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		try (Connection conn = DriverManager.getConnection(connectionUrl, "root", "382682498Mck!");
