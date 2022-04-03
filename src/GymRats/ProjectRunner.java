@@ -8,28 +8,31 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class ProjectRunner {
+	
+	static String connectionUrl = "jdbc:mysql://127.0.0.1:3306/gymrats";
+	static String dbUsername = ""; //replace with your username (most likely "root")
+	static String dbPassword = ""; //replace with your password 
 
 	public static void main(String[] args) throws ClassNotFoundException {
-		//addUser();
-		//getUsers();
-		//getAllWorkouts();
-		//deleteUser();
-		//getUsers();
+		
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		//addUser(connectionUrl);
+		getUsers();
+		getWorkoutForUser();
+		//deleteUser(connectionUrl);
+		//getUsers(connectionUrl);
 	}
 
-	public static void getAllWorkouts() throws ClassNotFoundException {
+	public static void getWorkoutForUser() throws ClassNotFoundException {
 		Scanner scan = new Scanner(System.in);
 		System.out.print("Enter your User Id: ");
 		int user_id = scan.nextInt();
 		scan.close();
 		boolean found = false;
 		String sqlSelectAllPersons = "SELECT * FROM user_workout";
-		String connectionUrl = "jdbc:mysql://127.0.0.1:3306/gymrats";
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		try (Connection conn = DriverManager.getConnection(connectionUrl, "root", "382682498Mck!");
+		try (Connection conn = DriverManager.getConnection(connectionUrl, dbUsername, dbPassword);
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);
 				ResultSet rs = ps.executeQuery()) {
-
 			while (rs.next()) {
 				int id = rs.getInt("User_Id");
 				if(id == user_id) {
@@ -58,36 +61,51 @@ public class ProjectRunner {
 
 	public static void getUsers() throws ClassNotFoundException {
 		String sqlSelectAllPersons = "SELECT * FROM user";
-		String connectionUrl = "jdbc:mysql://127.0.0.1:3306/gymrats";
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		try (Connection conn = DriverManager.getConnection(connectionUrl, "root", "382682498Mck!");
+		try (Connection conn = DriverManager.getConnection(connectionUrl, dbUsername, dbPassword);
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);
 				ResultSet rs = ps.executeQuery()) {
-
 			while (rs.next()) {
 				int id = rs.getInt("User_Id");
 				String name = rs.getString("FName");
 				String lastName = rs.getString("LName");
 				System.out.println(id + ": " + name + " " + lastName);
-
-				// do something with the extracted data...
 			}
 		} catch (SQLException e) {
 			System.out.println(e);
-			// handle the exception
 		}
 	}
 
 	public static void addUser() throws ClassNotFoundException {
-		String sqlSelectAllPersons = "INSERT INTO user (FName, LName, Username, Password) VALUES ('Evan', 'McKnight', 'user1', '123password')";
-		String connectionUrl = "jdbc:mysql://127.0.0.1:3306/gymrats";
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		try (Connection conn = DriverManager.getConnection(connectionUrl, "root", "382682498Mck!");
+		Scanner scan = new Scanner(System.in);
+		System.out.print("Enter username to add: ");
+		String username = scan.next();
+		scan.close();
+		String sqlSelectAllPersons = "INSERT INTO user (FName, LName, Username, Password) VALUES ('Evan', 'McKnight', '" + username + "', '123password')";
+		try (Connection conn = DriverManager.getConnection(connectionUrl, dbUsername, dbPassword);
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);) {
-			ps.execute();
+			if(getUserByUsername(username)) {
+				System.out.println("Error: Username already taken.");
+			} else {
+				ps.execute();
+				System.out.println("Success!");
+			}
 		} catch (SQLException e) {
 			System.out.println(e);
-			// handle the exception
+		}
+	}
+	
+	private static boolean getUserByUsername(String username) throws ClassNotFoundException {
+		String sqlSelectAllPersons = "SELECT User_Id FROM user WHERE '" + username + "' IN (Username)";
+		try (Connection conn = DriverManager.getConnection(connectionUrl, dbUsername, dbPassword);
+				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);
+				ResultSet rs = ps.executeQuery()) {
+			if(rs.next()) {
+				return true;
+			}
+			return false;
+		} catch (SQLException e) {
+			System.out.println(e);
+			return false;
 		}
 	}
 	
@@ -97,14 +115,11 @@ public class ProjectRunner {
 		int deleted = scan.nextInt();
 		scan.close();
 		String sqlSelectAllPersons = "DELETE FROM user WHERE User_Id = " + deleted;
-		String connectionUrl = "jdbc:mysql://127.0.0.1:3306/gymrats";
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		try (Connection conn = DriverManager.getConnection(connectionUrl, "root", "382682498Mck!");
+		try (Connection conn = DriverManager.getConnection(connectionUrl, dbUsername, dbPassword);
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);) {
 			ps.execute();
 		} catch (SQLException e) {
 			System.out.println(e);
-			// handle the exception
 		}
 	}
 
