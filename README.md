@@ -9,6 +9,7 @@ There is a lot of repeated code and wih the way the database is set up, I have t
 ## Solutions
 **Repeated Code**
 - There could be one function (say execute(String command, String/int flag)) which executes the statement and then calls helper functions based on the flag given. This works because each method only prints information at the moment. This would not work for an API because APIs return data after the query. This data is later used by whoever sent the request and is based upon the request (POST, PUT, GET, DELETE, etc.). 
+- *NOTE*: I made an attempt to clean the code earlier by having each method call an execute method and have either PreparedStatement or ResultSet returned but this caused SQL exceptions.
 
 **Database Setup**
 - After looking at the SQL code I believe I can change the setup. It currently creates an attribute and then sets it to unique. Instead, I could create the attribute as a unique attribute. 
