@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>SQL/GymRats_with_View.sql</name>
+			<type>1</type>
+			<location>C:/Users/mckso/OneDrive/Documents/Databases/GymRats_with_View.sql</location>
+		</link>
+	</linkedResources>
 </projectDescription>
