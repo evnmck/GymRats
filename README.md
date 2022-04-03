@@ -1,5 +1,15 @@
 # GymRats
 
+## Setup and Execution
+- make sure SQL is running on your laptop
+- ensure MySQLWorkbench is running and add some data to the database
+  - if you have not created the database run the SQL file (found in ./SQL/) in MySQLWorkbench
+- double check that mysql-connector is in "Referenced Libraries"
+-  there are **three variables** which you will need to check are right 
+  - **connectionURL**: idk what jdbc:mysql is (java-db-connector?), but its basically localhost/path_to_db
+  - **dbUsername**: your username (most likely "root") which you used to set up SQL
+  - **dbPassword**: your password for the user you created when setting up MYSQLWorkbench (I think)
+ 
 ## Purpose
 I created this repo to get some practice with accessing the database. This also taught me how to view specific user attributes and how to take user input and create a request.
 
