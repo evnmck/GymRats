@@ -5,20 +5,21 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Scanner;
 
 public class ProjectRunner {
 	
-	static String connectionUrl = "jdbc:mysql://127.0.0.1:3306/gymrats";
+	static String connectionUrl = "jdbc:mysql://127.0.0.1:3306/gymrats"; //could be different
 	static String dbUsername = ""; //replace with your username (most likely "root")
 	static String dbPassword = ""; //replace with your password 
 
 	public static void main(String[] args) throws ClassNotFoundException {
 		
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		//addUser(connectionUrl);
+		addUser();
 		getUsers();
-		getWorkoutForUser();
+		//getWorkoutForUser();
 		//deleteUser(connectionUrl);
 		//getUsers(connectionUrl);
 	}
@@ -83,18 +84,19 @@ public class ProjectRunner {
 		String sqlSelectAllPersons = "INSERT INTO user (FName, LName, Username, Password) VALUES ('Evan', 'McKnight', '" + username + "', '123password')";
 		try (Connection conn = DriverManager.getConnection(connectionUrl, dbUsername, dbPassword);
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);) {
-			if(getUserByUsername(username)) {
-				System.out.println("Error: Username already taken.");
-			} else {
-				ps.execute();
+				try {
+					ps.execute();
+				} catch(SQLIntegrityConstraintViolationException e){
+					System.out.println("Error: Username already taken.");
+					return;
+				}
 				System.out.println("Success!");
-			}
 		} catch (SQLException e) {
 			System.out.println(e);
 		}
 	}
 	
-	private static boolean getUserByUsername(String username) throws ClassNotFoundException {
+	public static boolean getUserByUsername(String username) throws ClassNotFoundException {
 		String sqlSelectAllPersons = "SELECT User_Id FROM user WHERE '" + username + "' IN (Username)";
 		try (Connection conn = DriverManager.getConnection(connectionUrl, dbUsername, dbPassword);
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);

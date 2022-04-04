@@ -24,14 +24,13 @@ CREATE TABLE IF NOT EXISTS `GymRats`.`User` (
   `User_Id` INT NOT NULL AUTO_INCREMENT,
   `FName` VARCHAR(45) NOT NULL,
   `Lname` VARCHAR(45) NOT NULL,
-  `Username` VARCHAR(45) NOT NULL,
+  `Username` VARCHAR(45) NOT NULL UNIQUE,
   `Password` VARCHAR(45) NOT NULL,
   `Bio` VARCHAR(255) NULL,
   `FK_Trainer_Id` INT NULL,
   PRIMARY KEY (`User_Id`),
   INDEX `FK_Trainer_Id_idx` (`FK_Trainer_Id` ASC) VISIBLE,
   UNIQUE INDEX `User_Id_UNIQUE` (`User_Id` ASC) VISIBLE,
-  UNIQUE INDEX `Username_UNIQUE` (`Username` ASC) VISIBLE,
   CONSTRAINT `FK_Trainer_Id`
     FOREIGN KEY (`FK_Trainer_Id`)
     REFERENCES `GymRats`.`User` (`User_Id`)
@@ -70,7 +69,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `GymRats`.`Exercise` (
   `Exercise_Id` INT NOT NULL AUTO_INCREMENT,
-  `Exercise_Name` VARCHAR(45) NOT NULL,
+  `Exercise_Name` VARCHAR(45) NOT NULL UNIQUE,
   PRIMARY KEY (`Exercise_Id`),
   UNIQUE INDEX `Exercise_Id_UNIQUE` (`Exercise_Id` ASC) VISIBLE)
 ENGINE = InnoDB;
