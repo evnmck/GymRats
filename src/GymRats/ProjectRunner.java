@@ -17,9 +17,9 @@ public class ProjectRunner {
 	public static void main(String[] args) throws ClassNotFoundException {
 		
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		addUser();
+		//addUser();
 		getUsers();
-		//getWorkoutForUser();
+		getWorkoutForUser();
 		//deleteUser(connectionUrl);
 		//getUsers(connectionUrl);
 	}
