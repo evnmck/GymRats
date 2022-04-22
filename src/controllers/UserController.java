@@ -1,4 +1,4 @@
-package GymRats;
+package controllers;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,14 +9,19 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import models.User;
 
 public class UserController {
 	String connectionUrl;
 	String dbUsername;
 	String dbPassword;
 
-	public UserController(String conn, String usrnm, String psswrd) throws ClassNotFoundException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+	public UserController(String conn, String usrnm, String psswrd) {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 		this.connectionUrl = conn;
 		this.dbUsername = usrnm;
 		this.dbPassword = psswrd;
@@ -103,8 +108,13 @@ public class UserController {
 				ret.put("LName", rs.getString("LName"));
 				ret.put("Username", rs.getString("Username"));
 				ret.put("Password", rs.getString("Password"));
-				ret.put("Bio", rs.getString("Bio"));
-				ret.put("FK_Trainer_Id", rs.getString("FK_Trainer_Id"));
+				if (rs.getString("Bio") != null) {
+					ret.put("Bio", rs.getString("Bio"));
+				}
+				if (rs.getString("FK_Trainer_Id") != null) {
+					ret.put("FK_Trainer_Id", rs.getString("FK_Trainer_Id"));
+				}
+
 				return ret;
 			}
 			return null;
@@ -114,19 +124,33 @@ public class UserController {
 		}
 	}
 
-	public void deleteUserByUserId(int userId) throws ClassNotFoundException {
+	public void editUser() {
+
+	}
+
+	public Dictionary<String, String> deleteUserByUserId(int userId) throws ClassNotFoundException {
+		Dictionary<String, String> deleted = getUser(userId);
 		String sqlSelectAllPersons = "DELETE FROM user WHERE User_Id = " + userId;
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);) {
 			ps.execute();
+			return deleted;
 		} catch (SQLException e) {
 			System.out.println(e);
 		}
+		return null;
 	}
 
-	public void deleteUserByUsername(String username) throws ClassNotFoundException {
+	public void UserByUsername(String username, String function) throws ClassNotFoundException {
 		int userId = getUserByUsername(username);
-		deleteUserByUserId(userId);
+		if (userId > 0) {
+			if (function.toLowerCase().equals("delete")) {
+				deleteUserByUserId(userId);
+			} else if (function.toLowerCase().equals("get")) {
+				getUser(userId);
+			}
+		}
+
 	}
 
 	private int getUserByUsername(String username) throws ClassNotFoundException {
@@ -137,10 +161,10 @@ public class UserController {
 			if (rs.next()) {
 				return rs.getInt("User_Id");
 			}
-			return -1;
+			return 0;
 		} catch (SQLException e) {
 			System.out.println(e);
-			return -1;
+			return 0;
 		}
 	}
 }

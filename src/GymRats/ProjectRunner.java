@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Scanner;
+import controllers.UserController;
+import controllers.ExerciseController;
 
 public class ProjectRunner {
 
