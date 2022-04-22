@@ -15,11 +15,13 @@ public class UserWorkoutController {
 		this.dbPassword = psswrd;
 	}
 
-	public ArrayList<UserWorkout> getBodyProgressForUser(int id) {
+	/* TODO */
+	public ArrayList<UserWorkout> getUserWorkoutForUser(int id) throws ClassNotFoundException {
 		return null;
 	}
 
-	public ArrayList<UserWorkout> getBodyProgresses() {
+	/* TODO */
+	public ArrayList<UserWorkout> getUserWorkouts() throws ClassNotFoundException {
 		return null;
 	}
 }

@@ -21,18 +21,22 @@ public class CommentController {
 		this.dbPassword = psswrd;
 	}
 
+	/* TODO */
 	public Comment addCommtent(Comment com) throws ClassNotFoundException {
 		return null;
 	}
 
+	/* TODO */
 	public Comment changeComment(int cId, int wId, String Comment) throws ClassNotFoundException {
 		return null;
 	}
 
+	/* TODO */
 	public Comment deleteComment(int cId, int wId) throws ClassNotFoundException {
 		return null;
 	}
 
+	/* TODO */
 	public Comment getComment(int cId, int wId) throws ClassNotFoundException {
 		return null;
 	}

@@ -21,14 +21,17 @@ public class WorkoutController {
 		this.dbPassword = psswrd;
 	}
 
+	/* TODO */
 	public Workout addWorkout(Workout workout) throws ClassNotFoundException {
 		return null;
 	}
 
+	/* TODO */
 	public Workout deleteWorkout(int wId, int eId, int uId) throws ClassNotFoundException {
 		return null;
 	}
 
+	/* TODO */
 	public Workout getWorkout(int wId, int eId, int uId) throws ClassNotFoundException {
 		return null;
 	}

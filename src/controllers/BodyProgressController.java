@@ -15,19 +15,23 @@ public class BodyProgressController {
 		this.dbPassword = psswrd;
 	}
 
+	/* TODO */
 	public BodyProgress addBodyProgress(BodyProgress bp) throws ClassNotFoundException {
 		return null;
 	}
 
+	/* TODO */
 	public BodyProgress deleteBodyProgress(int tId, int uId) throws ClassNotFoundException {
 		return null;
 	}
 
+	/* TODO */
 	public BodyProgress getBodyProgress(int tId, int uId) throws ClassNotFoundException {
 		return null;
 	}
 
-	public ArrayList<BodyProgress> getBodyProgresses() {
+	/* TODO */
+	public ArrayList<BodyProgress> getBodyProgresses() throws ClassNotFoundException {
 		return null;
 	}
 }
