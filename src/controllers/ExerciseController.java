@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.Hashtable;
+import models.Exercise;
 
 public class ExerciseController {
 	String connectionUrl;
@@ -21,36 +21,47 @@ public class ExerciseController {
 		this.dbPassword = psswrd;
 
 	}
-	
-	public void addExercise() {
-		
+
+	public Exercise addExercise(Exercise add) throws ClassNotFoundException {
+		String sqlSelectAllPersons = "INSERT INTO exercise (Exercise_Name) VALUES ('" + add.getEName() + "')";
+		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
+				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);) {
+			try {
+				ps.execute();
+			} catch (SQLIntegrityConstraintViolationException e) {
+				System.out.println("Error: Username already taken.");
+				return getExerciseByExerciseName(add.getEName());
+			}
+			System.out.println("Success!");
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return null;
 	}
 
-	public Dictionary<String, String> getExercise() {
-		String sqlSelectAllPersons = "SELECT * FROM exercise";
+	public Exercise getExercise(int id) {
+		String sqlSelectAllPersons = "SELECT * FROM exercise WHERE Exercise_Id = " + id;
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);
 				ResultSet rs = ps.executeQuery()) {
-				Dictionary<String, String> sub = new Hashtable<String, String>();
-				sub.put("Exercise_Id", Integer.toString(rs.getInt("Exercise_Id")));
-				sub.put("Exercise_Name", rs.getString("Exercise_Name"));
+			Exercise sub = new Exercise(rs.getString("Exercise_Name"));
+			sub.setEId(rs.getInt("Exercise_Id"));
 			return sub;
 		} catch (SQLException e) {
 			System.out.println(e);
 		}
 		return null;
 	}
-	
-	public ArrayList<Dictionary<String, String>> getExercises() {
+
+	public ArrayList<Exercise> getExercises() {
 		String sqlSelectAllPersons = "SELECT * FROM exercise";
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);
 				ResultSet rs = ps.executeQuery()) {
-			ArrayList<Dictionary<String, String>> ret = new ArrayList<Dictionary<String, String>>();
+			ArrayList<Exercise> ret = new ArrayList<Exercise>();
 			while (rs.next()) {
-				Dictionary<String, String> sub = new Hashtable<String, String>();
-				sub.put("Exercise_Id", Integer.toString(rs.getInt("Exercise_Id")));
-				sub.put("Exercise_Name", rs.getString("Exercise_Name"));
+				Exercise sub = new Exercise(rs.getString("Exercise_Name"));
+				sub.setEId(rs.getInt("Exercise_Id"));
 				ret.add(sub);
 			}
 			return ret;
@@ -59,8 +70,46 @@ public class ExerciseController {
 		}
 		return null;
 	}
-	
-	public void DeleteExercise() {
-		
+
+	public Exercise deleteExercise(int id) {
+		Exercise deleted = getExercise(id);
+		String sqlSelectAllPersons = "DELETE FROM exercise WHERE Exercise_Id = " + id;
+		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
+				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);) {
+			ps.execute();
+			return deleted;
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return null;
+	}
+
+	public Exercise updateExerciseName(int id, String name) {
+		String sqlSelectAllPersons = "UPDATE exercise SET Exercise_Name = '" + name + "' WHERE Exercise_Id = " + id;
+		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
+				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);) {
+			ps.execute();
+			return getExercise(id);
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return null;
+	}
+
+	private Exercise getExerciseByExerciseName(String ExerciseName) throws ClassNotFoundException {
+		String sqlSelectAllPersons = "SELECT * FROM exercise WHERE '" + ExerciseName + "' IN (Exercise_Name)";
+		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
+				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);
+				ResultSet rs = ps.executeQuery()) {
+			if (rs.next()) {
+				Exercise sub = new Exercise(rs.getString("Exercise_Name"));
+				sub.setEId(rs.getInt("Exercise_Id"));
+				return sub;
+			}
+
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return null;
 	}
 }

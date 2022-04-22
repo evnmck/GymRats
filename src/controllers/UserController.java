@@ -7,8 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.Hashtable;
 import models.User;
 
 public class UserController {
@@ -28,28 +26,21 @@ public class UserController {
 
 	}
 
-	public ArrayList<Dictionary<String, String>> getUsers() throws ClassNotFoundException {
+	public ArrayList<User> getUsers() throws ClassNotFoundException {
 		String sqlSelectAllPersons = "SELECT * FROM user";
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);
 				ResultSet rs = ps.executeQuery()) {
-			ArrayList<Dictionary<String, String>> ret = new ArrayList<Dictionary<String, String>>();
+			ArrayList<User> ret = new ArrayList<User>();
 			while (rs.next()) {
-				Dictionary<String, String> sub = new Hashtable<String, String>();
-				sub.put("User_id", Integer.toString(rs.getInt("User_Id")));
-				sub.put("FName", rs.getString("FName"));
-				sub.put("LName", rs.getString("LName"));
-				sub.put("Username", rs.getString("Username"));
-				sub.put("Password", rs.getString("Password"));
-				if (rs.getString("Bio") == null) {
-					sub.put("Bio", "null");
-				} else {
-					sub.put("Bio", rs.getString("Bio"));
+				User sub = new User(rs.getString("FName"), rs.getString("LName"), rs.getString("Username"),
+						rs.getString("Password"), rs.getString("Role"));
+				sub.setUId(rs.getInt("User_Id"));
+				if (rs.getString("Bio") != null) {
+					sub.setBio(rs.getString("Bio"));
 				}
-				if (rs.getString("FK_Trainer_Id") == null) {
-					sub.put("FK_Trainer_Id", "null");
-				} else {
-					sub.put("FK_Trainer_Id", rs.getString("FK_Trainer_Id"));
+				if (rs.getString("FK_Trainer_Id") != null) {
+					sub.setTrainerId(rs.getInt("FK_Trainer_Id"));
 				}
 
 				ret.add(sub);
@@ -61,25 +52,24 @@ public class UserController {
 		return null;
 	}
 
-	public void addUser(Dictionary<String, String> userInfo) throws ClassNotFoundException {
+	public User addUser(User user) throws ClassNotFoundException {
 		String sqlSelectAllPersons = null;
-		if (userInfo.get("Bio") != null && userInfo.get("FK_Trainer_Id") != null) {
-			sqlSelectAllPersons = "INSERT INTO user (FName, LName, Username, Password, Bio, FK_Trainer_Id) VALUES ('"
-					+ userInfo.get("FName") + "', '" + userInfo.get("LName") + "', '" + userInfo.get("Username")
-					+ "', '" + userInfo.get("Password") + "', '" + userInfo.get("Bio") + "', '"
-					+ userInfo.get("Fk_Trainer_Id") + "')";
-		} else if (userInfo.get("Bio") != null) {
-			sqlSelectAllPersons = "INSERT INTO user (FName, LName, Username, Password, Bio) VALUES ('"
-					+ userInfo.get("FName") + "', '" + userInfo.get("LName") + "', '" + userInfo.get("Username")
-					+ "', '" + userInfo.get("Password") + "', '" + userInfo.get("Bio") + "')";
-		} else if (userInfo.get("FK_Trainer_Id") != null) {
-			sqlSelectAllPersons = "INSERT INTO user (FName, LName, Username, Password,FK_Trainer_Id) VALUES ('"
-					+ userInfo.get("FName") + "', '" + userInfo.get("LName") + "', '" + userInfo.get("Username")
-					+ "', '" + userInfo.get("Password") + "', '" + userInfo.get("Fk_Trainer_Id") + "')";
+		if (user.getBio() != null && user.getTrainerId() > 0) {
+			sqlSelectAllPersons = "INSERT INTO user (FName, LName, Username, Password, Bio, FK_Trainer_Id, Role) VALUES ('"
+					+ user.getFName() + "', '" + user.getLName() + "', '" + user.getUName() + "', '" + user.getPWord()
+					+ "', '" + user.getBio() + "', '" + user.getTrainerId() + "', " + user.getRole().toString() + "')";
+		} else if (user.getBio() != null) {
+			sqlSelectAllPersons = "INSERT INTO user (FName, LName, Username, Password, Bio, Role) VALUES ('"
+					+ user.getFName() + "', '" + user.getLName() + "', '" + user.getUName() + "', '" + user.getPWord()
+					+ "', '" + user.getBio() + "', '" + user.getRole().toString() + "')";
+		} else if (user.getTrainerId() > 0) {
+			sqlSelectAllPersons = "INSERT INTO user (FName, LName, Username, Password, FK_Trainer_Id, Role) VALUES ('"
+					+ user.getFName() + "', '" + user.getLName() + "', '" + user.getUName() + "', '" + user.getPWord()
+					+ "', '" + user.getTrainerId() + "', " + user.getRole().toString() + "')";
 		} else {
-			sqlSelectAllPersons = "INSERT INTO user (FName, LName, Username, Password) VALUES ('"
-					+ userInfo.get("FName") + "', '" + userInfo.get("LName") + "', '" + userInfo.get("Username")
-					+ "', '" + userInfo.get("Password") + "')";
+			sqlSelectAllPersons = "INSERT INTO user (FName, LName, Username, Password, Role) VALUES ('"
+					+ user.getFName() + "', '" + user.getLName() + "', '" + user.getUName() + "', '" + user.getPWord()
+					+ "', '" + user.getRole().toString() + "')";
 		}
 
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
@@ -88,31 +78,29 @@ public class UserController {
 				ps.execute();
 			} catch (SQLIntegrityConstraintViolationException e) {
 				System.out.println("Error: Username already taken.");
-				return;
+				return getUserByUsername(user.getUName());
 			}
 			System.out.println("Success!");
 		} catch (SQLException e) {
 			System.out.println(e);
 		}
+		return null;
 	}
 
-	public Dictionary<String, String> getUser(int userId) throws ClassNotFoundException {
+	public User getUser(int userId) throws ClassNotFoundException {
 		String sqlSelectAllPersons = "SELECT * FROM user WHERE User_Id = " + userId;
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);
 				ResultSet rs = ps.executeQuery()) {
 			if (rs.next()) {
-				Dictionary<String, String> ret = new Hashtable<String, String>();
-				ret.put("User_id", Integer.toString(rs.getInt("User_Id")));
-				ret.put("FName", rs.getString("FName"));
-				ret.put("LName", rs.getString("LName"));
-				ret.put("Username", rs.getString("Username"));
-				ret.put("Password", rs.getString("Password"));
+				User ret = new User(rs.getString("FName"), rs.getString("LName"), rs.getString("Username"),
+						rs.getString("Password"), rs.getString("Role"));
+				ret.setUId(rs.getInt("User_Id"));
 				if (rs.getString("Bio") != null) {
-					ret.put("Bio", rs.getString("Bio"));
+					ret.setBio(rs.getString("Bio"));
 				}
 				if (rs.getString("FK_Trainer_Id") != null) {
-					ret.put("FK_Trainer_Id", rs.getString("FK_Trainer_Id"));
+					ret.setTrainerId(rs.getInt("FK_Trainer_Id"));
 				}
 
 				return ret;
@@ -124,12 +112,44 @@ public class UserController {
 		}
 	}
 
-	public void editUser() {
-
+	public User changeRole(int id, String role) throws ClassNotFoundException {
+		String sqlSelectAllPersons = "UPDATE user SET Role = '" + role + "' WHERE User_Id = " + id;
+		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
+				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);) {
+			ps.execute();
+			return getUser(id);
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return null;
 	}
 
-	public Dictionary<String, String> deleteUserByUserId(int userId) throws ClassNotFoundException {
-		Dictionary<String, String> deleted = getUser(userId);
+	public User changeBio(int id, String bio) throws ClassNotFoundException {
+		String sqlSelectAllPersons = "UPDATE user SET Bio = '" + bio + "' WHERE User_Id = " + id;
+		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
+				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);) {
+			ps.execute();
+			return getUser(id);
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return null;
+	}
+
+	public User changeTrainer(int id, int tId) throws ClassNotFoundException {
+		String sqlSelectAllPersons = "UPDATE user SET FK_Trainer_Id = '" + tId + "' WHERE User_Id = " + id;
+		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
+				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);) {
+			ps.execute();
+			return getUser(id);
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return null;
+	}
+
+	public User deleteUserByUserId(int userId) throws ClassNotFoundException {
+		User deleted = getUser(userId);
 		String sqlSelectAllPersons = "DELETE FROM user WHERE User_Id = " + userId;
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);) {
@@ -141,30 +161,27 @@ public class UserController {
 		return null;
 	}
 
-	public void UserByUsername(String username, String function) throws ClassNotFoundException {
-		int userId = getUserByUsername(username);
-		if (userId > 0) {
-			if (function.toLowerCase().equals("delete")) {
-				deleteUserByUserId(userId);
-			} else if (function.toLowerCase().equals("get")) {
-				getUser(userId);
-			}
-		}
-
-	}
-
-	private int getUserByUsername(String username) throws ClassNotFoundException {
+	private User getUserByUsername(String username) throws ClassNotFoundException {
 		String sqlSelectAllPersons = "SELECT * FROM user WHERE '" + username + "' IN (Username)";
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);
 				ResultSet rs = ps.executeQuery()) {
 			if (rs.next()) {
-				return rs.getInt("User_Id");
+				User sub = new User(rs.getString("FName"), rs.getString("LName"), rs.getString("Username"),
+						rs.getString("Password"), rs.getString("Role"));
+				sub.setUId(rs.getInt("User_Id"));
+				if (rs.getString("Bio") != null) {
+					sub.setBio(rs.getString("Bio"));
+				}
+				if (rs.getString("FK_Trainer_Id") != null) {
+					sub.setTrainerId(rs.getInt("FK_Trainer_Id"));
+				}
+				return sub;
 			}
-			return 0;
+
 		} catch (SQLException e) {
 			System.out.println(e);
-			return 0;
 		}
+		return null;
 	}
 }

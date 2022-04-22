@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Scanner;
-import controllers.UserController;
-import controllers.ExerciseController;
+import controllers.*;
+import models.*;
 
 public class ProjectRunner {
 
@@ -20,20 +20,18 @@ public class ProjectRunner {
 
 	public static void main(String[] args) throws ClassNotFoundException {
 		UserController user = new UserController(connectionUrl, dbUsername, dbPassword);
-		/*
-		 * Scanner scan = new Scanner(System.in); System.out.print("Enter User Info: ");
-		 * Dictionary<String, String> userInfo = new Hashtable<String, String>();
-		 * String[] all = scan.nextLine().split("\\s*,\\s*"); for(int i = 0; i <
-		 * all.length; i++) { String[] kv = all[i].split("\\s*:\\s*");
-		 * userInfo.put(kv[0], kv[1]); }
-		 * 
-		 * System.out.println(userInfo);
-		 */
+		ExerciseController exercise = new ExerciseController(connectionUrl, dbUsername, dbPassword);
+		//user.changeRole(1, "admin");
 		// user.deleteUserByUserId(21);
-		ArrayList<Dictionary<String, String>> ret = user.getUsers();
-		for (int j = 0; j < ret.size(); j++) {
-			System.out.println(ret.get(j));
+		ArrayList<User> users = user.getUsers();
+		for (int i = 0; i < users.size(); i++) {
+			System.out.println(users.get(i).toString());
 		}
+		System.out.println();
+		 ArrayList<Exercise> exercises = exercise.getExercises();
+			for (int j = 0; j < exercises.size(); j++) {
+				System.out.println(exercises.get(j).toString());
+			}
 
 	}
 
