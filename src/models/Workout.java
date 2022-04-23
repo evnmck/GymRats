@@ -4,13 +4,13 @@ import java.util.Date;
 
 public class Workout {
 	private int wId = -1;
-	private int eId;
-	private int uId;
-	private int startWeight;
-	private int endWeight;
-	private int reps;
-	private int sets;
-	private int time;
+	private int eId = -1;
+	private int uId = -1;
+	private int startWeight = -1;
+	private int endWeight = -1;
+	private int reps = -1;
+	private int sets = -1;
+	private int time = -1;
 	private Date date;
 
 	public Workout(int exercise, int user) {

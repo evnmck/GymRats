@@ -57,7 +57,7 @@ public class UserController {
 		if (user.getBio() != null && user.getTrainerId() > 0) {
 			sqlSelectAllPersons = "INSERT INTO user (FName, LName, Username, Password, Bio, FK_Trainer_Id, Role) VALUES ('"
 					+ user.getFName() + "', '" + user.getLName() + "', '" + user.getUName() + "', '" + user.getPWord()
-					+ "', '" + user.getBio() + "', '" + user.getTrainerId() + "', " + user.getRole().toString() + "')";
+					+ "', '" + user.getBio() + "', " + user.getTrainerId() + ", " + user.getRole().toString() + "')";
 		} else if (user.getBio() != null) {
 			sqlSelectAllPersons = "INSERT INTO user (FName, LName, Username, Password, Bio, Role) VALUES ('"
 					+ user.getFName() + "', '" + user.getLName() + "', '" + user.getUName() + "', '" + user.getPWord()
@@ -65,7 +65,7 @@ public class UserController {
 		} else if (user.getTrainerId() > 0) {
 			sqlSelectAllPersons = "INSERT INTO user (FName, LName, Username, Password, FK_Trainer_Id, Role) VALUES ('"
 					+ user.getFName() + "', '" + user.getLName() + "', '" + user.getUName() + "', '" + user.getPWord()
-					+ "', '" + user.getTrainerId() + "', " + user.getRole().toString() + "')";
+					+ "', " + user.getTrainerId() + ", " + user.getRole().toString() + "')";
 		} else {
 			sqlSelectAllPersons = "INSERT INTO user (FName, LName, Username, Password, Role) VALUES ('"
 					+ user.getFName() + "', '" + user.getLName() + "', '" + user.getUName() + "', '" + user.getPWord()
@@ -137,7 +137,7 @@ public class UserController {
 	}
 
 	public User changeTrainer(int id, int tId) throws ClassNotFoundException {
-		String sqlSelectAllPersons = "UPDATE user SET FK_Trainer_Id = '" + tId + "' WHERE User_Id = " + id;
+		String sqlSelectAllPersons = "UPDATE user SET FK_Trainer_Id = " + tId + " WHERE User_Id = " + id;
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);) {
 			ps.execute();

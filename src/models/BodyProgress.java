@@ -3,16 +3,16 @@ package models;
 import java.util.Date;
 
 public class BodyProgress {
-	private int trackingId;
-	private int userId;
+	private int trackingId = -1;
+	private int userId = -1;
 	private Date measured;
-	private double chest;
-	private double waist;
-	private double hips;
-	private double biceps;
-	private double thigh;
-	private double weight;
-	private double height;
+	private double chest = -1.0;
+	private double waist = -1.0;
+	private double hips = -1.0;
+	private double biceps = -1.0;
+	private double thigh = -1.0;
+	private double weight = -1.0;
+	private double height = -1.0;
 
 	public BodyProgress(int uId) {
 		this.setUserId(uId);
@@ -98,9 +98,12 @@ public class BodyProgress {
 		this.height = height;
 	}
 
-	//TODO 
+	// TODO
 	@Override
 	public String toString() {
-		return null;
+		return "{Tracking_Id: " + this.trackingId + ", FK_User_Id: " + this.userId + ", Date_Meaures: " + this.measured
+				+ ", Chest: " + this.chest + ", Waist: " + this.waist + ", Hips: " + this.hips + ", Biceps: "
+				+ this.biceps + ", Thigh: " + this.thigh + ", Weight: " + this.weight + ", Height: " + this.height
+				+ "}";
 	}
 }
