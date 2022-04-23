@@ -23,8 +23,7 @@ public class ProjectRunner {
 		ArrayList<Comment> comments = comment.getComments();
 		ArrayList<Workout> workouts = workout.getWorkouts();
 		ArrayList<UserWorkout> userWorkouts = userWorkout.getUserWorkouts();
-
-		System.out.println(bodyProgress.addBodyProgress(new BodyProgress(1)));
+		ArrayList<BodyProgress> bodyProgresses = bodyProgress.getBodyProgresses();
 
 		// user.changeRole(1, "admin");
 		// user.deleteUserByUserId(21);
@@ -51,6 +50,11 @@ public class ProjectRunner {
 
 		for (int n = 0; n < userWorkouts.size(); n++) {
 			System.out.println(userWorkouts.get(n).toString());
+		}
+		System.out.println();
+
+		for (int m = 0; m < bodyProgresses.size(); m++) {
+			System.out.println(bodyProgresses.get(m).toString());
 		}
 
 	}
