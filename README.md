@@ -11,10 +11,13 @@
     - **dbPassword**: your password for the user you created when setting up MYSQLWorkbench (I think)
  
 ## Purpose
-I created this repo to get some practice with accessing the database. This also taught me how to view specific user attributes and how to take user input and create a request.
+I created this repo originally to get practice with accessing databases, but it changed to be our project.
+
+## Structure
+There are three packages in the project: controllers, gymrats, and models. The controllers package contains classes that directly interact with the database. The gymrats package contains the main method which runs the project. Lastly, the models package contains classes that model each table - there is also an enum for the user role type (user, trainer, admin). Outside of the src file there is a folder (titled SQL) which contains the SQL code to create and populate the GymRats database.
 
 ## Issues
-There is a lot of repeated code and wih the way the database is set up, I have to execute a search query to check for identical usernames rather than a username being automatically checked and verified. 
+There is a lot of repeated code and wih the way the database is set up, I have to execute a search query to check for identical usernames rather than a username being automatically checked and verified. I also had to hardcode SQL statements which are subject to SQL injection attacks. 
 
 ## Solutions
 **Repeated Code**
@@ -24,3 +27,6 @@ There is a lot of repeated code and wih the way the database is set up, I have t
 **Database Setup**
 - After looking at the SQL code I believe I can change the setup. It currently creates an attribute and then sets it to unique. Instead, I could create the attribute as a unique attribute. 
 - I have reached out to the professor for additional help and will post the solution if they can help or I mine works.
+
+**SQL Injection**
+- I created models for every table with getters and setters. This should ensure at the minimum that each type is correct. However, it does not prevent string types from containing potentially harmful content.
