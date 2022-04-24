@@ -23,7 +23,8 @@ public class ExerciseController {
 	}
 
 	public Exercise addExercise(Exercise add) throws ClassNotFoundException {
-		String sqlSelectAllPersons = "INSERT INTO exercise (Exercise_Name) VALUES ('" + add.getEName() + "')";
+		String sqlSelectAllPersons = "INSERT INTO exercise (Exercise_Name) VALUES ('" + add.getEName().toLowerCase()
+				+ "')";
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);) {
 			try {
