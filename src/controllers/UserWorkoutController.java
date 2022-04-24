@@ -57,8 +57,8 @@ public class UserWorkoutController {
 	}
 
 	public UserWorkout getMax(int id, String name) {
-		String sqlSelectAllPersons = "SELECT * FROM user_workout WHERE User_Id = " + id + " && Exercise_Name = '" + name
-				+ "'";
+		String sqlSelectAllPersons = "SELECT * FROM user_workout WHERE User_Id = " + id + " && Exercise_Name = '"
+				+ name.toLowerCase() + "'";
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);
 				ResultSet rs = ps.executeQuery()) {
