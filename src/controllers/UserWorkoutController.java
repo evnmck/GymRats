@@ -56,6 +56,64 @@ public class UserWorkoutController {
 
 	}
 
+	public UserWorkout getMax(int id, String name) {
+		String sqlSelectAllPersons = "SELECT * FROM user_workout WHERE User_Id = " + id + " && Exercise _Name = "
+				+ name;
+		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
+				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);
+				ResultSet rs = ps.executeQuery()) {
+			ArrayList<UserWorkout> ret = new ArrayList<UserWorkout>();
+			if (rs.next()) {
+				UserWorkout sub = new UserWorkout(rs.getInt("User_Id"));
+				if (rs.getString("Exercise_Name") != null) {
+					sub.seteName(rs.getString("Exercise_Name"));
+				}
+				if (rs.getString("Username") != null) {
+					sub.setuName(rs.getString("Username"));
+				}
+				if (rs.getInt("Start_Weight") > 0) {
+					sub.setStartWeight(rs.getInt("Start_Weight"));
+				}
+				if (rs.getInt("End_Weight") > 0) {
+					sub.setEndWeight(rs.getInt("End_Weight"));
+				}
+				if (rs.getInt("Sets") > 0) {
+					sub.setSets(rs.getInt("Sets"));
+				}
+				if (rs.getInt("Time_in_Minutes") > 0) {
+					sub.setTime(rs.getInt("Time_in_Minutes"));
+				}
+				ret.add(sub);
+
+				sub.getEndWeight();
+			}
+			return getMaxWeight(ret);
+
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return null;
+	}
+
+	private UserWorkout getMaxWeight(ArrayList<UserWorkout> ret) {
+		if (ret == null) {
+			return null;
+		}
+		UserWorkout max = ret.get(0);
+		if (ret.size() == 1) {
+			return max;
+		} else {
+			for (int i = 1; i < ret.size(); i++) {
+				if (max.getMaxWeight() <= ret.get(i).getMaxWeight()) {
+					max = ret.get(i);
+				}
+			}
+		}
+
+		return max;
+
+	}
+
 	public ArrayList<UserWorkout> getUserWorkouts() throws ClassNotFoundException {
 		String sqlSelectAllPersons = "SELECT * FROM user_workout";
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);

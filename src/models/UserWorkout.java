@@ -78,7 +78,14 @@ public class UserWorkout {
 		this.time = time;
 	}
 
-	// TODO
+	public int getMaxWeight() {
+		if (this.startWeight > this.endWeight) {
+			return this.startWeight;
+		} else {
+			return this.endWeight;
+		}
+	}
+
 	@Override
 	public String toString() {
 		return "{User_Id: " + this.uId + ", Exercise_Name: " + this.eName + ", Username: " + this.uName
