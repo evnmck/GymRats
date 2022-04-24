@@ -8,7 +8,7 @@ public class ProjectRunner {
 
 	static String connectionUrl = "jdbc:mysql://127.0.0.1:3306/gymrats"; // could be different
 	static String dbUsername = "root"; // replace with your username (most likely "root")
-	static String dbPassword = ""; // replace with your password
+	static String dbPassword = "382682498Mck!"; // replace with your password
 
 	public static void main(String[] args) throws ClassNotFoundException {
 		UserController user = new UserController(connectionUrl, dbUsername, dbPassword);
@@ -24,6 +24,8 @@ public class ProjectRunner {
 		ArrayList<Workout> workouts = workout.getWorkouts();
 		ArrayList<UserWorkout> userWorkouts = userWorkout.getUserWorkouts();
 		ArrayList<BodyProgress> bodyProgresses = bodyProgress.getBodyProgresses();
+
+		System.out.println("\n" + userWorkout.getMax(1, "deadlift") + "\n");
 
 		// user.changeRole(1, "admin");
 		// user.deleteUserByUserId(21);

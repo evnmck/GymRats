@@ -57,13 +57,13 @@ public class UserWorkoutController {
 	}
 
 	public UserWorkout getMax(int id, String name) {
-		String sqlSelectAllPersons = "SELECT * FROM user_workout WHERE User_Id = " + id + " && Exercise _Name = "
-				+ name;
+		String sqlSelectAllPersons = "SELECT * FROM user_workout WHERE User_Id = " + id + " && Exercise_Name = '" + name
+				+ "'";
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);
 				ResultSet rs = ps.executeQuery()) {
 			ArrayList<UserWorkout> ret = new ArrayList<UserWorkout>();
-			if (rs.next()) {
+			while (rs.next()) {
 				UserWorkout sub = new UserWorkout(rs.getInt("User_Id"));
 				if (rs.getString("Exercise_Name") != null) {
 					sub.seteName(rs.getString("Exercise_Name"));
@@ -77,6 +77,9 @@ public class UserWorkoutController {
 				if (rs.getInt("End_Weight") > 0) {
 					sub.setEndWeight(rs.getInt("End_Weight"));
 				}
+				if (rs.getInt("Repetitions") > 0) {
+					sub.setReps(rs.getInt("Repetitions"));
+				}
 				if (rs.getInt("Sets") > 0) {
 					sub.setSets(rs.getInt("Sets"));
 				}
@@ -84,11 +87,8 @@ public class UserWorkoutController {
 					sub.setTime(rs.getInt("Time_in_Minutes"));
 				}
 				ret.add(sub);
-
-				sub.getEndWeight();
 			}
 			return getMaxWeight(ret);
-
 		} catch (SQLException e) {
 			System.out.println(e);
 		}
@@ -103,9 +103,10 @@ public class UserWorkoutController {
 		if (ret.size() == 1) {
 			return max;
 		} else {
-			for (int i = 1; i < ret.size(); i++) {
+			for (int i = 0; i < ret.size(); i++) {
 				if (max.getMaxWeight() <= ret.get(i).getMaxWeight()) {
 					max = ret.get(i);
+					System.out.println(max);
 				}
 			}
 		}
