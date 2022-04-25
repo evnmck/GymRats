@@ -8,7 +8,7 @@ public class ProjectRunner {
 
 	static String connectionUrl = "jdbc:mysql://127.0.0.1:3306/gymrats"; // could be different
 	static String dbUsername = "root"; // replace with your username (most likely "root")
-	static String dbPassword = "382682498Mck!"; // replace with your password
+	static String dbPassword = ""; // replace with your password
 
 	public static void main(String[] args) throws ClassNotFoundException {
 		UserController user = new UserController(connectionUrl, dbUsername, dbPassword);
@@ -28,8 +28,7 @@ public class ProjectRunner {
 		ArrayList<UserWorkout> unordered = userWorkout.getAllForExcerciseName(1, "deadlift");
 		System.out.println("\nUnordered Deadlift: " + unordered + "\n");
 		System.out.println("\nInorder Deadlift: " + userWorkout.sortUserWorkouts(unordered) + "\n");
-		// The code below will get all of the record lifts for deadlift from all users,
-		// sort them, and list the top 5
+		// The code below will get all of the record lifts for deadlift from all users, sort them, and list the top 5
 		/*
 		 * ArrayList<UserWorkout> sortedDeadLift = userWorkout
 		 * .sortUserWorkouts(userWorkout.getAllWithSameName("deadlift"));
