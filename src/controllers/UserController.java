@@ -161,7 +161,7 @@ public class UserController {
 		return null;
 	}
 
-	private User getUserByUsername(String username) throws ClassNotFoundException {
+	public User getUserByUsername(String username) throws ClassNotFoundException {
 		String sqlSelectAllPersons = "SELECT * FROM user WHERE '" + username + "' IN (Username)";
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);
