@@ -11,7 +11,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
-import controllers.UserController;
+import controllers.*;
+import models.*;
 
 //import controller.DatabaseHandler;
 //import model.User;
@@ -78,7 +79,8 @@ public class Login {
 				String pw = password.getText();
 
 				try {
-					if (userManager.getUserByUsername(em) != null) {
+					User user = userManager.getUserByUsername(em);
+					if (user != null && user.getPWord().equals(pw)) {
 						JOptionPane.showMessageDialog(frame, "Logging in...");
 
 						// Go to UserMenu screen
