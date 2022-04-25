@@ -1,6 +1,6 @@
 package models;
 
-public class UserWorkout {
+public class UserWorkout implements Comparable<UserWorkout> {
 	private int uId;
 	private String eName = null;
 	private String uName = null;
@@ -91,5 +91,10 @@ public class UserWorkout {
 		return "{User_Id: " + this.uId + ", Exercise_Name: " + this.eName + ", Username: " + this.uName
 				+ ", Start_Weight: " + this.startWeight + ", End_Weight: " + this.endWeight + ", Repetitions: "
 				+ this.reps + ", Sets: " + this.sets + ", Time_in_Minutes: " + this.time + "}";
+	}
+
+	@Override
+	public int compareTo(UserWorkout o) {
+		return o.getMaxWeight() - this.getMaxWeight();
 	}
 }

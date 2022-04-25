@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+
 import models.UserWorkout;
 
 public class UserWorkoutController {
@@ -95,6 +97,83 @@ public class UserWorkoutController {
 		return null;
 	}
 
+	public ArrayList<UserWorkout> getAllForExcerciseName(int id, String name) {
+		String sqlSelectAllPersons = "SELECT * FROM user_workout WHERE User_Id = " + id + " && Exercise_Name = '"
+				+ name.toLowerCase() + "'";
+		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
+				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);
+				ResultSet rs = ps.executeQuery()) {
+			ArrayList<UserWorkout> ret = new ArrayList<UserWorkout>();
+			while (rs.next()) {
+				UserWorkout sub = new UserWorkout(rs.getInt("User_Id"));
+				if (rs.getString("Exercise_Name") != null) {
+					sub.seteName(rs.getString("Exercise_Name"));
+				}
+				if (rs.getString("Username") != null) {
+					sub.setuName(rs.getString("Username"));
+				}
+				if (rs.getInt("Start_Weight") > 0) {
+					sub.setStartWeight(rs.getInt("Start_Weight"));
+				}
+				if (rs.getInt("End_Weight") > 0) {
+					sub.setEndWeight(rs.getInt("End_Weight"));
+				}
+				if (rs.getInt("Repetitions") > 0) {
+					sub.setReps(rs.getInt("Repetitions"));
+				}
+				if (rs.getInt("Sets") > 0) {
+					sub.setSets(rs.getInt("Sets"));
+				}
+				if (rs.getInt("Time_in_Minutes") > 0) {
+					sub.setTime(rs.getInt("Time_in_Minutes"));
+				}
+				ret.add(sub);
+			}
+			return ret;
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return null;
+	}
+
+	public ArrayList<UserWorkout> getAllWithSameName(String name) {
+		String sqlSelectAllPersons = "SELECT * FROM user_workout WHERE Exercise_Name = '" + name.toLowerCase() + "'";
+		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
+				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);
+				ResultSet rs = ps.executeQuery()) {
+			ArrayList<UserWorkout> ret = new ArrayList<UserWorkout>();
+			while (rs.next()) {
+				UserWorkout sub = new UserWorkout(rs.getInt("User_Id"));
+				if (rs.getString("Exercise_Name") != null) {
+					sub.seteName(rs.getString("Exercise_Name"));
+				}
+				if (rs.getString("Username") != null) {
+					sub.setuName(rs.getString("Username"));
+				}
+				if (rs.getInt("Start_Weight") > 0) {
+					sub.setStartWeight(rs.getInt("Start_Weight"));
+				}
+				if (rs.getInt("End_Weight") > 0) {
+					sub.setEndWeight(rs.getInt("End_Weight"));
+				}
+				if (rs.getInt("Repetitions") > 0) {
+					sub.setReps(rs.getInt("Repetitions"));
+				}
+				if (rs.getInt("Sets") > 0) {
+					sub.setSets(rs.getInt("Sets"));
+				}
+				if (rs.getInt("Time_in_Minutes") > 0) {
+					sub.setTime(rs.getInt("Time_in_Minutes"));
+				}
+				ret.add(sub);
+			}
+			return ret;
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return null;
+	}
+
 	private UserWorkout getMaxWeight(ArrayList<UserWorkout> ret) {
 		if (ret == null) {
 			return null;
@@ -106,7 +185,6 @@ public class UserWorkoutController {
 			for (int i = 0; i < ret.size(); i++) {
 				if (max.getMaxWeight() <= ret.get(i).getMaxWeight()) {
 					max = ret.get(i);
-					System.out.println(max);
 				}
 			}
 		}
@@ -152,6 +230,11 @@ public class UserWorkoutController {
 		}
 		return null;
 
+	}
+
+	public ArrayList<UserWorkout> sortUserWorkouts(ArrayList<UserWorkout> workouts) throws ClassNotFoundException {
+		Collections.sort(workouts);
+		return workouts;
 	}
 
 }

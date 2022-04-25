@@ -15,7 +15,19 @@ public class BodyProgress {
 	private double height = -1.0;
 
 	public BodyProgress(int uId) {
-		this.setUserId(uId);
+		this.userId = uId;
+	}
+
+	public BodyProgress(int userId, double chest, double waist, double hips, double biceps, double thigh, double weight,
+			double height) {
+		this.userId = userId;
+		this.chest = chest;
+		this.waist = waist;
+		this.hips = hips;
+		this.biceps = biceps;
+		this.thigh = thigh;
+		this.weight = weight;
+		this.height = height;
 	}
 
 	public int getTrackingId() {

@@ -21,7 +21,7 @@ public class BodyProgressController {
 		this.dbPassword = psswrd;
 	}
 
-	public boolean addBodyProgress(BodyProgress bp) throws ClassNotFoundException {
+	public BodyProgress addBodyProgress(BodyProgress bp) throws ClassNotFoundException {
 		String sqlSelectAllPersons = null;
 		if (bp.getMeasured() != null) {
 			sqlSelectAllPersons = "INSERT INTO body_progress (FK_User_Id, Date_Measured, Chest, Waist, Hips, Biceps, Thigh, Weight, Height) VALUES ("
@@ -39,13 +39,28 @@ public class BodyProgressController {
 				ps.execute();
 			} catch (SQLIntegrityConstraintViolationException e) {
 				System.out.println("Error: Username already taken.");
-				return false;
+				return null;
 			}
-			return true;
+			return getMostRecentAdd(bp.getUserId());
 		} catch (SQLException e) {
 			System.out.println(e);
 		}
-		return false;
+		return null;
+	}
+
+	public BodyProgress getMostRecentAdd(int user) throws ClassNotFoundException {
+		String sqlSelectAllPersons = "SELECT MAX(Tracking_Id) FROM body_progress";
+		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
+				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);
+				ResultSet rs = ps.executeQuery()) {
+			if (rs.next()) {
+				return getBodyProgress(rs.getInt("MAX(Tracking_Id)"), user);
+			}
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return null;
+
 	}
 
 	public BodyProgress deleteBodyProgress(int tId, int uId) throws ClassNotFoundException {
@@ -62,7 +77,8 @@ public class BodyProgressController {
 	}
 
 	public BodyProgress getBodyProgress(int tId, int uId) throws ClassNotFoundException {
-		String sqlSelectAllPersons = "SELECT * FROM body_progress";
+		String sqlSelectAllPersons = "SELECT * FROM body_progress WHERE Tracking_Id = " + tId + " && FK_User_Id = "
+				+ uId;
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);
 				ResultSet rs = ps.executeQuery()) {

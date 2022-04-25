@@ -21,17 +21,17 @@ public class WorkoutController {
 		this.dbPassword = psswrd;
 	}
 
-	public boolean addWorkout(Workout workout) throws ClassNotFoundException {
+	public Workout addWorkout(Workout workout) throws ClassNotFoundException {
 		String sqlSelectAllPersons = null;
 		if (workout.getDate() != null) {
-			sqlSelectAllPersons = "INSERT INTO workout (FK_Exercise_Id, FK_User_Id, Start_Weight, End_Weight, Repetitions, Sets, Time_in_Minutes, Date) VALUES ("
-					+ workout.getEId() + ", " + workout.getUid() + ", " + workout.getSWeight() + ", "
-					+ workout.getEWeight() + ", " + workout.getReps() + ", " + workout.getSets() + ", "
-					+ workout.getTime() + ", " + workout.getDate() + ")";
+			sqlSelectAllPersons = "INSERT INTO workout (Workout_Id, FK_Exercise_Id, FK_User_Id, Start_Weight, End_Weight, Repetitions, Sets, Time_in_Minutes, Date) VALUES ("
+					+ workout.getWId() + ", " + workout.getEId() + ", " + workout.getUid() + ", " + workout.getSWeight()
+					+ ", " + workout.getEWeight() + ", " + workout.getReps() + ", " + workout.getSets() + ", "
+					+ workout.getTime() + ", '" + workout.getDate() + "')";
 		} else {
-			sqlSelectAllPersons = "INSERT INTO workout (FK_Exercise_Id, FK_User_Id, Start_Weight, End_Weight, Repetitions, Sets, Time_in_Minutes) VALUES ("
-					+ workout.getEId() + ", " + workout.getUid() + ", " + workout.getSWeight() + ", "
-					+ workout.getEWeight() + ", " + workout.getReps() + ", " + workout.getSets() + ", "
+			sqlSelectAllPersons = "INSERT INTO workout (Workout_Id, FK_Exercise_Id, FK_User_Id, Start_Weight, End_Weight, Repetitions, Sets, Time_in_Minutes) VALUES ("
+					+ workout.getWId() + ", " + workout.getEId() + ", " + workout.getUid() + ", " + workout.getSWeight()
+					+ ", " + workout.getEWeight() + ", " + workout.getReps() + ", " + workout.getSets() + ", "
 					+ workout.getTime() + ")";
 		}
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
@@ -40,13 +40,15 @@ public class WorkoutController {
 				ps.execute();
 			} catch (SQLIntegrityConstraintViolationException e) {
 				System.out.println("Error: Username already taken.");
-				return false;
+				return null;
 			}
-			return true;
+			System.out.println("Success");
+			return getWorkout(workout.getWId(), workout.getEId(), workout.getUid());
+
 		} catch (SQLException e) {
 			System.out.println(e);
 		}
-		return false;
+		return null;
 	}
 
 	public Workout deleteWorkout(int wId, int eId, int uId) throws ClassNotFoundException {
@@ -70,7 +72,8 @@ public class WorkoutController {
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);
 				ResultSet rs = ps.executeQuery()) {
 			while (rs.next()) {
-				Workout sub = new Workout(rs.getInt("FK_Exercise_Id"), rs.getInt("FK_User_Id"));
+				Workout sub = new Workout(rs.getInt("Workout_Id"), rs.getInt("FK_Exercise_Id"),
+						rs.getInt("FK_User_Id"));
 				sub.setWId(rs.getInt("Workout_Id"));
 				if (rs.getInt("Start_Weight") >= 0) {
 					sub.setSWeight(rs.getInt("Start_Weight"));
@@ -105,7 +108,8 @@ public class WorkoutController {
 				ResultSet rs = ps.executeQuery()) {
 			ArrayList<Workout> ret = new ArrayList<Workout>();
 			while (rs.next()) {
-				Workout sub = new Workout(rs.getInt("FK_Exercise_Id"), rs.getInt("FK_User_Id"));
+				Workout sub = new Workout(rs.getInt("Workout_Id"), rs.getInt("FK_Exercise_Id"),
+						rs.getInt("FK_User_Id"));
 				sub.setWId(rs.getInt("Workout_Id"));
 				if (rs.getInt("Start_Weight") >= 0) {
 					sub.setSWeight(rs.getInt("Start_Weight"));

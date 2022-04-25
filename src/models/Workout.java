@@ -1,6 +1,6 @@
 package models;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Workout {
 	private int wId = -1;
@@ -13,9 +13,21 @@ public class Workout {
 	private int time = -1;
 	private Date date;
 
-	public Workout(int exercise, int user) {
+	public Workout(int workout, int exercise, int user) {
+		this.wId = workout;
 		this.eId = exercise;
 		this.uId = user;
+	}
+
+	public Workout(int workout, int exercise, int user, int start, int end, int reps, int sets, int time) {
+		this.wId = workout;
+		this.eId = exercise;
+		this.uId = user;
+		this.startWeight = start;
+		this.endWeight = end;
+		this.reps = reps;
+		this.sets = sets;
+		this.time = time;
 	}
 
 	public void setWId(int id) {
