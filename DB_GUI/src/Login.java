@@ -23,7 +23,7 @@ import models.*;
 public class Login {
 	private static String connectionUrl = "jdbc:mysql://127.0.0.1:3306/gymrats"; // could be different
 	private static String dbUsername = "root"; // replace with your username (most likely "root")
-	private static String dbPassword = "@Tuan_1010"; // replace with your password
+	private static String dbPassword = "382682498Mck!"; // replace with your password
 
 	JFrame frame;
 	private JTextField email;
