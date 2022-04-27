@@ -29,8 +29,10 @@ public class Login {
 
 	/**
 	 * Create the application.
+	 * 
+	 * @throws ClassNotFoundException
 	 */
-	public Login(String url, String name, String pword) {
+	public Login(String url, String name, String pword) throws ClassNotFoundException {
 		this.connectionUrl = url;
 		this.dbUsername = name;
 		this.dbPassword = pword;
@@ -43,8 +45,10 @@ public class Login {
 
 	/**
 	 * Initialize the contents of the frame.
+	 * 
+	 * @throws ClassNotFoundException
 	 */
-	private void initialize() {
+	private void initialize() throws ClassNotFoundException {
 
 
 		UserController userManager = new UserController(connectionUrl, dbUsername, dbPassword);

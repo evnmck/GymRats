@@ -36,16 +36,16 @@ public class UserWorkoutController {
 				if (rs.getString("Username") != null) {
 					sub.setuName(rs.getString("Username"));
 				}
-				if (rs.getInt("Start_Weight") > 0) {
+				if (rs.getInt("Start_Weight") >= 0) {
 					sub.setStartWeight(rs.getInt("Start_Weight"));
 				}
-				if (rs.getInt("End_Weight") > 0) {
+				if (rs.getInt("End_Weight") >= 0) {
 					sub.setEndWeight(rs.getInt("End_Weight"));
 				}
-				if (rs.getInt("Sets") > 0) {
+				if (rs.getInt("Sets") >= 0) {
 					sub.setSets(rs.getInt("Sets"));
 				}
-				if (rs.getInt("Time_in_Minutes") > 0) {
+				if (rs.getInt("Time_in_Minutes") >= 0) {
 					sub.setTime(rs.getInt("Time_in_Minutes"));
 				}
 				ret.add(sub);
@@ -73,19 +73,19 @@ public class UserWorkoutController {
 				if (rs.getString("Username") != null) {
 					sub.setuName(rs.getString("Username"));
 				}
-				if (rs.getInt("Start_Weight") > 0) {
+				if (rs.getInt("Start_Weight") >= 0) {
 					sub.setStartWeight(rs.getInt("Start_Weight"));
 				}
-				if (rs.getInt("End_Weight") > 0) {
+				if (rs.getInt("End_Weight") >= 0) {
 					sub.setEndWeight(rs.getInt("End_Weight"));
 				}
-				if (rs.getInt("Repetitions") > 0) {
+				if (rs.getInt("Repetitions") >= 0) {
 					sub.setReps(rs.getInt("Repetitions"));
 				}
-				if (rs.getInt("Sets") > 0) {
+				if (rs.getInt("Sets") >= 0) {
 					sub.setSets(rs.getInt("Sets"));
 				}
-				if (rs.getInt("Time_in_Minutes") > 0) {
+				if (rs.getInt("Time_in_Minutes") >= 0) {
 					sub.setTime(rs.getInt("Time_in_Minutes"));
 				}
 				ret.add(sub);
@@ -112,19 +112,19 @@ public class UserWorkoutController {
 				if (rs.getString("Username") != null) {
 					sub.setuName(rs.getString("Username"));
 				}
-				if (rs.getInt("Start_Weight") > 0) {
+				if (rs.getInt("Start_Weight") >= 0) {
 					sub.setStartWeight(rs.getInt("Start_Weight"));
 				}
-				if (rs.getInt("End_Weight") > 0) {
+				if (rs.getInt("End_Weight") >= 0) {
 					sub.setEndWeight(rs.getInt("End_Weight"));
 				}
-				if (rs.getInt("Repetitions") > 0) {
+				if (rs.getInt("Repetitions") >= 0) {
 					sub.setReps(rs.getInt("Repetitions"));
 				}
-				if (rs.getInt("Sets") > 0) {
+				if (rs.getInt("Sets") >= 0) {
 					sub.setSets(rs.getInt("Sets"));
 				}
-				if (rs.getInt("Time_in_Minutes") > 0) {
+				if (rs.getInt("Time_in_Minutes") >= 0) {
 					sub.setTime(rs.getInt("Time_in_Minutes"));
 				}
 				ret.add(sub);
@@ -150,19 +150,19 @@ public class UserWorkoutController {
 				if (rs.getString("Username") != null) {
 					sub.setuName(rs.getString("Username"));
 				}
-				if (rs.getInt("Start_Weight") > 0) {
+				if (rs.getInt("Start_Weight") >= 0) {
 					sub.setStartWeight(rs.getInt("Start_Weight"));
 				}
-				if (rs.getInt("End_Weight") > 0) {
+				if (rs.getInt("End_Weight") >= 0) {
 					sub.setEndWeight(rs.getInt("End_Weight"));
 				}
-				if (rs.getInt("Repetitions") > 0) {
+				if (rs.getInt("Repetitions") >= 0) {
 					sub.setReps(rs.getInt("Repetitions"));
 				}
-				if (rs.getInt("Sets") > 0) {
+				if (rs.getInt("Sets") >= 0) {
 					sub.setSets(rs.getInt("Sets"));
 				}
-				if (rs.getInt("Time_in_Minutes") > 0) {
+				if (rs.getInt("Time_in_Minutes") >= 0) {
 					sub.setTime(rs.getInt("Time_in_Minutes"));
 				}
 				ret.add(sub);
@@ -207,19 +207,19 @@ public class UserWorkoutController {
 				if (rs.getString("Username") != null) {
 					sub.setuName(rs.getString("Username"));
 				}
-				if (rs.getInt("Start_Weight") > 0) {
+				if (rs.getInt("Start_Weight") >= 0) {
 					sub.setStartWeight(rs.getInt("Start_Weight"));
 				}
-				if (rs.getInt("End_Weight") > 0) {
+				if (rs.getInt("End_Weight") >= 0) {
 					sub.setEndWeight(rs.getInt("End_Weight"));
 				}
-				if (rs.getInt("Repetitions") > 0) {
+				if (rs.getInt("Repetitions") >= 0) {
 					sub.setReps(rs.getInt("Repetitions"));
 				}
-				if (rs.getInt("Sets") > 0) {
+				if (rs.getInt("Sets") >= 0) {
 					sub.setSets(rs.getInt("Sets"));
 				}
-				if (rs.getInt("Time_in_Minutes") > 0) {
+				if (rs.getInt("Time_in_Minutes") >= 0) {
 					sub.setTime(rs.getInt("Time_in_Minutes"));
 				}
 				ret.add(sub);

@@ -31,6 +31,7 @@ public class ExerciseController {
 				ps.execute();
 			} catch (SQLIntegrityConstraintViolationException e) {
 				System.out.println("Error: Username already taken.");
+				return null;
 			}
 			return getExerciseByExerciseName(add.getEName());
 		} catch (SQLException e) {

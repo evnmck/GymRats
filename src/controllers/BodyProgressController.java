@@ -88,29 +88,71 @@ public class BodyProgressController {
 				if (rs.getDate("Date_Measured") != null) {
 					sub.setMeasured(rs.getDate("Date_Measured"));
 				}
-				if (rs.getDouble("Chest") > 0.0) {
+				if (rs.getDouble("Chest") >= 0.0) {
 					sub.setChest(rs.getDouble("Chest"));
 				}
-				if (rs.getDouble("Waist") > 0.0) {
+				if (rs.getDouble("Waist") >= 0.0) {
 					sub.setWaist(rs.getDouble("Waist"));
 				}
-				if (rs.getDouble("Hips") > 0.0) {
+				if (rs.getDouble("Hips") >= 0.0) {
 					sub.setHips(rs.getDouble("Hips"));
 				}
-				if (rs.getDouble("Biceps") > 0.0) {
+				if (rs.getDouble("Biceps") >= 0.0) {
 					sub.setBiceps(rs.getDouble("Biceps"));
 				}
-				if (rs.getDouble("Thigh") > 0.0) {
+				if (rs.getDouble("Thigh") >= 0.0) {
 					sub.setThigh(rs.getDouble("Thigh"));
 				}
-				if (rs.getDouble("Weight") > 0.0) {
+				if (rs.getDouble("Weight") >= 0.0) {
 					sub.setWeight(rs.getDouble("Weight"));
 				}
-				if (rs.getDouble("Height") > 0.0) {
+				if (rs.getDouble("Height") >= 0.0) {
 					sub.setHeight(rs.getDouble("Height"));
 				}
 				return sub;
 			}
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return null;
+	}
+
+	public ArrayList<BodyProgress> getBodyProgressesForUser(int uId) throws ClassNotFoundException {
+		String sqlSelectAllPersons = "SELECT * FROM body_progress WHERE FK_User_Id = " + uId;
+		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
+				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);
+				ResultSet rs = ps.executeQuery()) {
+			ArrayList<BodyProgress> ret = new ArrayList<BodyProgress>();
+			while (rs.next()) {
+				BodyProgress sub = new BodyProgress(rs.getInt("FK_User_Id"));
+				sub.setTrackingId(rs.getInt("Tracking_Id"));
+				if (rs.getDate("Date_Measured") != null) {
+					sub.setMeasured(rs.getDate("Date_Measured"));
+				}
+				if (rs.getDouble("Chest") >= 0.0) {
+					sub.setChest(rs.getDouble("Chest"));
+				}
+				if (rs.getDouble("Waist") >= 0.0) {
+					sub.setWaist(rs.getDouble("Waist"));
+				}
+				if (rs.getDouble("Hips") >= 0.0) {
+					sub.setHips(rs.getDouble("Hips"));
+				}
+				if (rs.getDouble("Biceps") >= 0.0) {
+					sub.setBiceps(rs.getDouble("Biceps"));
+				}
+				if (rs.getDouble("Thigh") >= 0.0) {
+					sub.setThigh(rs.getDouble("Thigh"));
+				}
+				if (rs.getDouble("Weight") >= 0.0) {
+					sub.setWeight(rs.getDouble("Weight"));
+				}
+				if (rs.getDouble("Height") >= 0.0) {
+					sub.setHeight(rs.getDouble("Height"));
+				}
+				ret.add(sub);
+			}
+			return ret;
 		} catch (SQLException e) {
 			System.out.println(e);
 		}
@@ -129,25 +171,25 @@ public class BodyProgressController {
 				if (rs.getDate("Date_Measured") != null) {
 					sub.setMeasured(rs.getDate("Date_Measured"));
 				}
-				if (rs.getDouble("Chest") > 0.0) {
+				if (rs.getDouble("Chest") >= 0.0) {
 					sub.setChest(rs.getDouble("Chest"));
 				}
-				if (rs.getDouble("Waist") > 0.0) {
+				if (rs.getDouble("Waist") >= 0.0) {
 					sub.setWaist(rs.getDouble("Waist"));
 				}
-				if (rs.getDouble("Hips") > 0.0) {
+				if (rs.getDouble("Hips") >= 0.0) {
 					sub.setHips(rs.getDouble("Hips"));
 				}
-				if (rs.getDouble("Biceps") > 0.0) {
+				if (rs.getDouble("Biceps") >= 0.0) {
 					sub.setBiceps(rs.getDouble("Biceps"));
 				}
-				if (rs.getDouble("Thigh") > 0.0) {
+				if (rs.getDouble("Thigh") >= 0.0) {
 					sub.setThigh(rs.getDouble("Thigh"));
 				}
-				if (rs.getDouble("Weight") > 0.0) {
+				if (rs.getDouble("Weight") >= 0.0) {
 					sub.setWeight(rs.getDouble("Weight"));
 				}
-				if (rs.getDouble("Height") > 0.0) {
+				if (rs.getDouble("Height") >= 0.0) {
 					sub.setHeight(rs.getDouble("Height"));
 				}
 				ret.add(sub);

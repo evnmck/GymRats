@@ -14,16 +14,11 @@ public class UserController {
 	String dbUsername;
 	String dbPassword;
 
-	public UserController(String conn, String usrnm, String psswrd) {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+	public UserController(String conn, String usrnm, String psswrd) throws ClassNotFoundException {
+		Class.forName("com.mysql.cj.jdbc.Driver");
 		this.connectionUrl = conn;
 		this.dbUsername = usrnm;
 		this.dbPassword = psswrd;
-
 	}
 
 	public ArrayList<User> getUsers() throws ClassNotFoundException {
@@ -39,7 +34,7 @@ public class UserController {
 				if (rs.getString("Bio") != null) {
 					sub.setBio(rs.getString("Bio"));
 				}
-				if (rs.getString("FK_Trainer_Id") != null) {
+				if (rs.getInt("FK_Trainer_Id") > 0) {
 					sub.setTrainerId(rs.getInt("FK_Trainer_Id"));
 				}
 
@@ -78,9 +73,10 @@ public class UserController {
 				ps.execute();
 			} catch (SQLIntegrityConstraintViolationException e) {
 				System.out.println("Error: Username already taken.");
-				return getUserByUsername(user.getUName());
+				return null;
 			}
 			System.out.println("Success!");
+			return getUserByUsername(user.getUName());
 		} catch (SQLException e) {
 			System.out.println(e);
 		}
@@ -99,7 +95,7 @@ public class UserController {
 				if (rs.getString("Bio") != null) {
 					ret.setBio(rs.getString("Bio"));
 				}
-				if (rs.getString("FK_Trainer_Id") != null) {
+				if (rs.getInt("FK_Trainer_Id") > 0) {
 					ret.setTrainerId(rs.getInt("FK_Trainer_Id"));
 				}
 
@@ -173,7 +169,7 @@ public class UserController {
 				if (rs.getString("Bio") != null) {
 					sub.setBio(rs.getString("Bio"));
 				}
-				if (rs.getString("FK_Trainer_Id") != null) {
+				if (rs.getInt("FK_Trainer_Id") > 0) {
 					sub.setTrainerId(rs.getInt("FK_Trainer_Id"));
 				}
 				return sub;

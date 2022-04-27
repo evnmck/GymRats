@@ -1,9 +1,9 @@
 package models;
 
 public class Comment {
-	private int commenterId;
-	private int workoutId;
-	private String comment;
+	private int commenterId = -1;
+	private int workoutId = -1;
+	private String comment = null;
 
 	public Comment(int cId, int wId, String comment) {
 		this.commenterId = cId;
@@ -29,6 +29,9 @@ public class Comment {
 
 	@Override
 	public String toString() {
+		if (this.comment == null) {
+			return "{FK_Commenter_Id: " + this.commenterId + ", FK_Workout_Id: " + this.workoutId + ", Comment: ''}";
+		}
 		return "{FK_Commenter_Id: " + this.commenterId + ", FK_Workout_Id: " + this.workoutId + ", Comment: "
 				+ this.comment + "}";
 	}

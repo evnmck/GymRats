@@ -11,7 +11,7 @@ public class UserWorkout implements Comparable<UserWorkout> {
 	private int time = -1;
 
 	public UserWorkout(int uId) {
-		this.setuId(uId);
+		this.uId = uId;
 	}
 
 	public int getuId() {
@@ -88,6 +88,19 @@ public class UserWorkout implements Comparable<UserWorkout> {
 
 	@Override
 	public String toString() {
+		if (this.uName == null && this.eName == null) {
+			return "{User_Id: " + this.uId + ", Exercise_Name: '', Username: '', Start_Weight: " + this.startWeight
+					+ ", End_Weight: " + this.endWeight + ", Repetitions: " + this.reps + ", Sets: " + this.sets
+					+ ", Time_in_Minutes: " + this.time + "}";
+		} else if (this.uName == null) {
+			return "{User_Id: " + this.uId + ", Exercise_Name: " + this.eName + ", Username: '', Start_Weight: "
+					+ this.startWeight + ", End_Weight: " + this.endWeight + ", Repetitions: " + this.reps + ", Sets: "
+					+ this.sets + ", Time_in_Minutes: " + this.time + "}";
+		} else if (this.eName == null) {
+			return "{User_Id: " + this.uId + ", Exercise_Name: '', Username: " + this.uName + ", Start_Weight: "
+					+ this.startWeight + ", End_Weight: " + this.endWeight + ", Repetitions: " + this.reps + ", Sets: "
+					+ this.sets + ", Time_in_Minutes: " + this.time + "}";
+		}
 		return "{User_Id: " + this.uId + ", Exercise_Name: " + this.eName + ", Username: " + this.uName
 				+ ", Start_Weight: " + this.startWeight + ", End_Weight: " + this.endWeight + ", Repetitions: "
 				+ this.reps + ", Sets: " + this.sets + ", Time_in_Minutes: " + this.time + "}";
