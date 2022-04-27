@@ -40,9 +40,6 @@ public class Login {
 
 	}
 
-
-
-
 	/**
 	 * Initialize the contents of the frame.
 	 * 
@@ -50,8 +47,7 @@ public class Login {
 	 */
 	private void initialize() throws ClassNotFoundException {
 
-
-		UserController userManager = new UserController(connectionUrl, dbUsername, dbPassword);
+		UserController userManager = new UserController(this.connectionUrl, this.dbUsername, this.dbPassword);
 
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
@@ -83,26 +79,15 @@ public class Login {
 				String pw = password.getText();
 
 				try {
-				    // TEST LINKING PAGES TOGETHER
-                    // DELETE WHEN ACTUAL DB IS LINKED
-//				    boolean testing = true; // TESTING PURPOSES
-				    
 					User user = userManager.getUserByUsername(em);
-//					if (testing) {
-//                       JOptionPane.showMessageDialog(frame, "Logging in...");
-//                       MainMenu men = new MainMenu();
-//                       frame.setVisible(false);
-//                       men.frame.setVisible(true); 
-//					}
 					if (user != null && user.getPWord().equals(pw)) {
 						JOptionPane.showMessageDialog(frame, "Logging in...");
 
 						// Go to UserMenu screen
-    					MainMenu men = new MainMenu();
-    					men.frame.setVisible(true);
-						frame.setVisible(false);
-					}
-					else {
+						MainMenu men = new MainMenu(user);
+						men.frame.setVisible(true);
+						frame.dispose();
+					} else {
 						JOptionPane.showMessageDialog(frame, "Invalid email or password");
 					}
 				} catch (NumberFormatException e1) {
@@ -124,25 +109,17 @@ public class Login {
 		lblNewLabel_1 = new JLabel("Welcome, please log in to continue");
 		lblNewLabel_1.setBounds(108, 38, 237, 16);
 		frame.getContentPane().add(lblNewLabel_1);
-		
+
 		JButton btnRegister = new JButton("Register");
 		btnRegister.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-                // Go to UserMenu screen
-                  Register regScreen = new Register();
-                  regScreen.frame.setVisible(true);
-                  frame.setVisible(false);
-                  //frame.dispose();
-                //frame.setVisible(false);
-		    }
+			public void actionPerformed(ActionEvent e) {
+				// Go to UserMenu screen
+				// Register regScreen = new Register();
+				// regScreen.frame.setVisible(true);
+				frame.dispose();
+			}
 		});
 		btnRegister.setBounds(248, 187, 97, 25);
 		frame.getContentPane().add(btnRegister);
-
 	}
-	
-	
-	
 }
-
-
