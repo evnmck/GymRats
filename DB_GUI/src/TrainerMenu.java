@@ -9,12 +9,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import models.User;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class TrainerMenu {
 
-    private JFrame frame;
+    JFrame frame;
     private JTable table;
-
+    static User user;
     /**
      * Launch the application.
      */
@@ -22,7 +25,7 @@ public class TrainerMenu {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    TrainerMenu window = new TrainerMenu();
+                    TrainerMenu window = new TrainerMenu(user);
                     window.frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -34,7 +37,8 @@ public class TrainerMenu {
     /**
      * Create the application.
      */
-    public TrainerMenu() {
+    public TrainerMenu(User user) {
+        this.user = user;
         initialize();
     }
 
@@ -100,8 +104,19 @@ public class TrainerMenu {
         frame.getContentPane().add(commentTA);
         
         JButton btnComment = new JButton("Add Comment");
-        btnComment.setBounds(353, 491, 123, 25);
+        btnComment.setBounds(216, 491, 123, 25);
         frame.getContentPane().add(btnComment);
+        
+        JButton btnMenu = new JButton("Main Menu");
+        btnMenu.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                MainMenu men = new MainMenu(user);
+                men.frame.setVisible(true);
+            }
+        });
+        btnMenu.setBounds(216, 534, 123, 25);
+        frame.getContentPane().add(btnMenu);
         
         
         

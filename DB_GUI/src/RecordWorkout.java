@@ -2,11 +2,15 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JTextField;
+import models.User;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class RecordWorkout {
 
@@ -16,6 +20,8 @@ public class RecordWorkout {
 	private JTextField setsTF;
 	private JTextField repsTF;
 	private JTextField startWTF;
+    static User user = null;
+    static String woName = null;
 
 	/**
 	 * Launch the application.
@@ -24,7 +30,7 @@ public class RecordWorkout {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RecordWorkout window = new RecordWorkout();
+					RecordWorkout window = new RecordWorkout(user, "");
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -36,7 +42,9 @@ public class RecordWorkout {
 	/**
 	 * Create the application.
 	 */
-	public RecordWorkout() {
+	public RecordWorkout(User user, String woName) {
+	    this.user = user;
+	    this.woName = woName;
 		initialize();
 	}
 
@@ -45,13 +53,13 @@ public class RecordWorkout {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 568, 528);
+		frame.setBounds(100, 100, 572, 572);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel newWLabel = new JLabel("New Workout!");
+		JLabel newWLabel = new JLabel("Enter exercises for: " + woName);
 		newWLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		newWLabel.setBounds(33, 32, 146, 16);
+		newWLabel.setBounds(33, 32, 415, 16);
 		frame.getContentPane().add(newWLabel);
 		
 		JLabel exNameLabel = new JLabel("Exercise name:");
@@ -106,5 +114,17 @@ public class RecordWorkout {
 		JButton addEntryButton = new JButton("Add Entry");
 		addEntryButton.setBounds(331, 193, 117, 29);
 		frame.getContentPane().add(addEntryButton);
+		
+		JButton btnEnd = new JButton("End Workout");
+		btnEnd.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        JOptionPane.showMessageDialog(frame, "Good job!");
+		        frame.dispose();
+		        MainMenu main = new MainMenu(user);
+		        main.frame.setVisible(true);
+		    }
+		});
+		btnEnd.setBounds(220, 482, 130, 25);
+		frame.getContentPane().add(btnEnd);
 	}
 }

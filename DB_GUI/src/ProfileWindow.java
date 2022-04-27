@@ -4,6 +4,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import models.User;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -13,12 +14,12 @@ public class ProfileWindow {
     protected JFrame frame;
     private JTextField fNameF;
     private JTextField lNameF;
-    private JTextField roleF;
+    private JTextField bioF;
     private JPasswordField pwF;
     private JPasswordField cpwF;
     private JButton btnSave;
     private JLabel nameLabel;
-
+    static User user;
     /**
      * Launch the application.
      */
@@ -26,7 +27,7 @@ public class ProfileWindow {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    ProfileWindow window = new ProfileWindow();
+                    ProfileWindow window = new ProfileWindow(user);
                     window.frame.setVisible(true);
                 }
                 catch (Exception e) {
@@ -40,7 +41,8 @@ public class ProfileWindow {
     /**
      * Create the application.
      */
-    public ProfileWindow() {
+    public ProfileWindow(User user) {
+        this.user = user;
         initialize();
     }
 
@@ -53,6 +55,10 @@ public class ProfileWindow {
         frame.setBounds(100, 100, 464, 382);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
+        
+        nameLabel = new JLabel("Edit profile for " + user.getFName().toUpperCase() + " " + user.getLName().toUpperCase() + " (" + user.getUName() + ")");
+        nameLabel.setBounds(105, 13, 264, 43);
+        frame.getContentPane().add(nameLabel);
         
         JLabel lblFname = new JLabel("First Name");
         lblFname.setBounds(77, 69, 68, 16);
@@ -84,10 +90,10 @@ public class ProfileWindow {
         lNameF.setBounds(169, 95, 229, 22);
         frame.getContentPane().add(lNameF);
         
-        roleF = new JTextField();
-        roleF.setColumns(10);
-        roleF.setBounds(169, 186, 229, 80);
-        frame.getContentPane().add(roleF);
+        bioF = new JTextField();
+        bioF.setColumns(10);
+        bioF.setBounds(169, 186, 229, 80);
+        frame.getContentPane().add(bioF);
         
         pwF = new JPasswordField();
         pwF.setBounds(169, 127, 229, 22);
@@ -105,21 +111,33 @@ public class ProfileWindow {
                 String lName = lNameF.getText();
                 String pass = pwF.getText();
                 String cPass = cpwF.getText();
-                String role = cpwF.getText();
+                String bio = bioF.getText();
+                
                 if (!pass.equals(cPass)) {
                     JOptionPane.showMessageDialog(frame, "Password does not match");
                 }
-                /*
-                 * CHECK TO SEE IF USER EXISTS HERE
-                 * 
-                */
-                //UserController controller;
-//                else if (user exists) {
-//                    JOptionPane.showMessageDialog(frame, "User already exists");
-//                }
                 else {
-                    JOptionPane.showMessageDialog(frame, "Success. Your changes have been saved");
-                    //frame.dispose();
+                    /*
+                     * @TODO: ADD DB LOGIC TO MODIFY EXISTING USER HERE
+                     * 
+                     * Check if fName, lName, or bio needs to be modified.
+                     * If any of the fields is not blank, update user in DB with new attribute.
+                     * If BLANK, then don't modify
+                     * 
+                     * BACKEND: NEED TO HAVE SETTERS in user to MODIFY fname, lname, etc..
+                     * or delete private for each field in user to make it quicker
+                     *  i.e "private String fName" becomes "String fname"
+                     * 
+                     * and need a function to update user in DB with modified ATTRIBUTES
+                     */
+                    
+                    
+                    
+                    // Dispose current frame and return to Main menu
+                    JOptionPane.showMessageDialog(frame, "Success. Your changes have been saved");   
+                    frame.dispose();
+                    MainMenu retMen = new MainMenu(user);
+                    retMen.frame.setVisible(true);
                 }   
                 
             }
@@ -127,9 +145,6 @@ public class ProfileWindow {
         btnSave.setBounds(301, 279, 97, 25);
         frame.getContentPane().add(btnSave);
         
-        nameLabel = new JLabel("Edit profile for FIRST_NAME LAST_NAME");
-        nameLabel.setBounds(105, 13, 238, 43);
-        frame.getContentPane().add(nameLabel);
-    }
 
+    }
 }

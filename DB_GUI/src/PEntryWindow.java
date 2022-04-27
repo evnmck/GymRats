@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import models.User;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -20,7 +21,8 @@ public class PEntryWindow {
     private JTextField hipsTF;
     private JTextField waistTF;
     private JTextField thighTF;
-
+    static User user;
+    
     /**
      * Launch the application.
      */
@@ -28,7 +30,7 @@ public class PEntryWindow {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    PEntryWindow window = new PEntryWindow();
+                    PEntryWindow window = new PEntryWindow(user);
                     window.frame.setVisible(true);
                 }
                 catch (Exception e) {
@@ -42,7 +44,8 @@ public class PEntryWindow {
     /**
      * Create the application.
      */
-    public PEntryWindow() {
+    public PEntryWindow(User user) {
+        this.user = user;
         initialize();
     }
 
@@ -114,8 +117,8 @@ public class PEntryWindow {
         btnEntry.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(frame, "New progress added");
-                frame.setVisible(false);
-                ProgressMenu retMen = new ProgressMenu();
+                frame.dispose();
+                ProgressMenu retMen = new ProgressMenu(user);
                 retMen.frame.setVisible(true);
             }
         });

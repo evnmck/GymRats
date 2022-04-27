@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
-import GymRats.Login;
 import controllers.*;
 import models.*;
 
@@ -23,7 +22,7 @@ import models.*;
 public class Login {
 	private static String connectionUrl = "jdbc:mysql://127.0.0.1:3306/gymrats"; // could be different
 	private static String dbUsername = "root"; // replace with your username (most likely "root")
-	private static String dbPassword = "382682498Mck!"; // replace with your password
+	private static String dbPassword = "@Tuan_1010"; // replace with your password
 
 	JFrame frame;
 	private JTextField email;
@@ -93,24 +92,14 @@ public class Login {
 				String pw = password.getText();
 
 				try {
-				    // TEST LINKING PAGES TOGETHER
-                    // DELETE WHEN ACTUAL DB IS LINKED
-//				    boolean testing = true; // TESTING PURPOSES
-				    
 					User user = userManager.getUserByUsername(em);
-//					if (testing) {
-//                       JOptionPane.showMessageDialog(frame, "Logging in...");
-//                       MainMenu men = new MainMenu();
-//                       frame.setVisible(false);
-//                       men.frame.setVisible(true); 
-//					}
 					if (user != null && user.getPWord().equals(pw)) {
 						JOptionPane.showMessageDialog(frame, "Logging in...");
 
 						// Go to UserMenu screen
-    					MainMenu men = new MainMenu();
+    					MainMenu men = new MainMenu(user);
     					men.frame.setVisible(true);
-						frame.setVisible(false);
+						frame.dispose();
 					}
 					else {
 						JOptionPane.showMessageDialog(frame, "Invalid email or password");
@@ -138,16 +127,13 @@ public class Login {
 		JButton btnRegister = new JButton("Register");
 		btnRegister.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-                // Go to UserMenu screen
-                  Register regScreen = new Register();
-                  regScreen.frame.setVisible(true);
-                  frame.setVisible(false);
-                  //frame.dispose();
-                //frame.setVisible(false);
+		        // Go to UserMenu screen
+		        Register regScreen = new Register();
+		        regScreen.frame.setVisible(true);
+		        frame.dispose();   
 		    }
 		});
 		btnRegister.setBounds(248, 187, 97, 25);
 		frame.getContentPane().add(btnRegister);
-
 	}
 }

@@ -4,6 +4,7 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import com.ibm.icu.util.Calendar;
+import models.User;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
@@ -14,6 +15,10 @@ import java.awt.event.ActionEvent;
 public class MainMenu {
 
     JFrame frame;
+    static User user = null;
+    private static String connectionUrl = "jdbc:mysql://127.0.0.1:3306/gymrats"; // could be different
+    private static String dbUsername = "root"; // replace with your username (most likely "root")
+    private static String dbPassword = "@Tuan_1010"; // replace with your password
 
     /**
      * Launch the application.
@@ -22,7 +27,7 @@ public class MainMenu {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    MainMenu window = new MainMenu();
+                    MainMenu window = new MainMenu(user);
                     window.frame.setVisible(true);
                 }
                 catch (Exception e) {
@@ -36,7 +41,8 @@ public class MainMenu {
     /**
      * Create the application.
      */
-    public MainMenu() {
+    public MainMenu(User user) {
+        this.user = user;
         initialize();
     }
 
@@ -50,12 +56,7 @@ public class MainMenu {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
         
-//        Date date = Calendar.getInstance().getTime();
-//        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//        String strDate = dateFormat.format(date);
-//        //String date = "4/26/2022";
-        
-        JLabel mainLbl = new JLabel("WELCOME");
+        JLabel mainLbl = new JLabel("WELCOME " + user.getFName().toUpperCase() + " " + user.getLName().toUpperCase());
         mainLbl.setHorizontalAlignment(SwingConstants.CENTER);
         mainLbl.setBounds(174, 28, 157, 46);
         frame.getContentPane().add(mainLbl);
@@ -63,11 +64,9 @@ public class MainMenu {
         JButton addWOButton = new JButton("Workouts");
         addWOButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
-                frame.setVisible(false);
-                WorkoutWindow wo = new WorkoutWindow();
+                frame.dispose();
+                WorkoutWindow wo = new WorkoutWindow(user);
                 wo.frame.setVisible(true);
-                
             }
         });
         addWOButton.setBounds(196, 146, 109, 25);
@@ -76,8 +75,8 @@ public class MainMenu {
         JButton progressButton = new JButton("Progress");
         progressButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false);
-                ProgressMenu men = new ProgressMenu();
+                frame.dispose();
+                ProgressMenu men = new ProgressMenu(user);
                 men.frame.setVisible(true);
             }
         });
@@ -87,16 +86,24 @@ public class MainMenu {
         JButton profileButton = new JButton("Edit Profile");
         profileButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ProfileWindow pro = new ProfileWindow();
+                ProfileWindow pro = new ProfileWindow(user);
                 pro.frame.setVisible(true);
+                frame.dispose();
             }
         });
         profileButton.setBounds(196, 245, 109, 25);
         frame.getContentPane().add(profileButton);
         
         JButton trainerButton = new JButton("Trainer Tab");
+        if (!user.isTrainer()) {
+            trainerButton.setEnabled(false); 
+        }
+        
         trainerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                TrainerMenu tMenu = new TrainerMenu(user);
+                tMenu.frame.setVisible(true);
             }
         });
         trainerButton.setBounds(196, 290, 109, 25);
@@ -105,8 +112,8 @@ public class MainMenu {
         JButton logoutButton = new JButton("Logout");
         logoutButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false);
-                Login log = new Login("", "", "");
+                frame.dispose();
+                Login log = new Login(connectionUrl, dbUsername, dbPassword);
                 log.frame.setVisible(true);
             }
         });

@@ -8,11 +8,13 @@ import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import models.User;
+import javax.swing.JScrollPane;
 
 public class ProgressMenu {
 
     JFrame frame;
-    private JTable table;
+    static User user;
 
     /**
      * Launch the application.
@@ -21,7 +23,7 @@ public class ProgressMenu {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    ProgressMenu window = new ProgressMenu();
+                    ProgressMenu window = new ProgressMenu(user);
                     window.frame.setVisible(true);
                 }
                 catch (Exception e) {
@@ -35,7 +37,8 @@ public class ProgressMenu {
     /**
      * Create the application.
      */
-    public ProgressMenu() {
+    public ProgressMenu(User user) {
+        this.user = user;
         initialize();
     }
 
@@ -52,15 +55,15 @@ public class ProgressMenu {
         JButton btnEntry = new JButton("New Entry");
         btnEntry.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false);
-                PEntryWindow entry = new PEntryWindow();
+                frame.dispose();
+                PEntryWindow entry = new PEntryWindow(user);
                 entry.frame.setVisible(true);
             }
         });
         btnEntry.setBounds(195, 75, 97, 25);
         frame.getContentPane().add(btnEntry);
         
-        JLabel pLbl = new JLabel("Progress Page for FIRST_NAME LAST_NAME");
+        JLabel pLbl = new JLabel("Progress Page for " + user.getFName().toUpperCase() + " " + user.getLName().toUpperCase());
         pLbl.setBounds(118, 29, 263, 33);
         frame.getContentPane().add(pLbl);
         
@@ -68,25 +71,19 @@ public class ProgressMenu {
         progressBox.setBounds(114, 152, 286, 25);
         frame.getContentPane().add(progressBox);
         
-        table = new JTable();
-        table.setModel(new DefaultTableModel(
-            new Object[][] {
-                {"", null, null, null, null, null, null, null, null},
-            },
-            new String[] {
-                "Date", "TrackingID", "Weight", "Chest", "Bicep", "Hips", "Waist", "Thigh", "New column"
-            }
-        ) {
-            Class[] columnTypes = new Class[] {
-                String.class, String.class, Float.class, Float.class, Float.class, Float.class, Float.class, Float.class, Object.class
-            };
-            public Class getColumnClass(int columnIndex) {
-                return columnTypes[columnIndex];
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setBounds(48, 221, 400, 136);
+        frame.getContentPane().add(scrollPane);
+        
+        JButton btnMenu = new JButton("Main Menu");
+        btnMenu.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                MainMenu men = new MainMenu(user);
+                men.frame.setVisible(true);
             }
         });
-        table.setBounds(141, 347, 221, -105);
-        frame.getContentPane().add(table);
-        DefaultTableModel model = (DefaultTableModel)table.getModel();
-        model.addRow(new Object[] {1, 2, 3});
+        btnMenu.setBounds(195, 395, 97, 25);
+        frame.getContentPane().add(btnMenu);
     }
 }
