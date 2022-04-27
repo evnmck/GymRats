@@ -10,12 +10,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+import models.User;
 
 public class WorkoutWindow {
 
 	JFrame frame;
-	//private final JLabel DateLabel = new JLabel("Today is:");
-	
+    static User user = null;	
 	Date date = Calendar.getInstance().getTime();
     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     String strDate = dateFormat.format(date);
@@ -29,7 +29,7 @@ public class WorkoutWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-				    WorkoutWindow window = new WorkoutWindow();
+				    WorkoutWindow window = new WorkoutWindow(user);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,7 +41,8 @@ public class WorkoutWindow {
 	/**
 	 * Create the application.
 	 */
-	public WorkoutWindow() {
+	public WorkoutWindow(User user) {
+	    this.user = user;
 		initialize();
 	}
 
@@ -59,7 +60,8 @@ public class WorkoutWindow {
 		JButton startWorkoutButton = new JButton("Start Workout");
 		startWorkoutButton.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		        StartWorkout newWO = new StartWorkout();
+		        frame.dispose();
+		        StartWorkout newWO = new StartWorkout(user);
 		        newWO.frame.setVisible(true);
 		    }
 		});
@@ -69,7 +71,7 @@ public class WorkoutWindow {
 		JButton pastWorkoutButton = new JButton("View Past Workouts");
 		pastWorkoutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			    PastWorkouts pWO = new PastWorkouts();
+			    PastWorkouts pWO = new PastWorkouts(user);
 			    pWO.frame.setVisible(true);
 			    frame.setVisible(false);
 			}
@@ -80,6 +82,9 @@ public class WorkoutWindow {
 		JButton prStatsButton = new JButton("View Personal Records");
 		prStatsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+			    frame.dispose();
+			    PRWindow win = new PRWindow(user);
+			    win.frame.setVisible(true);
 			}
 		});
 		prStatsButton.setBounds(139, 162, 167, 29);

@@ -5,15 +5,18 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
+import models.User;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PastWorkouts {
 
     JFrame frame;
     private JTextField textField;
-
+    static User user;
     /**
      * Launch the application.
      */
@@ -21,7 +24,7 @@ public class PastWorkouts {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    PastWorkouts window = new PastWorkouts();
+                    PastWorkouts window = new PastWorkouts(user);
                     window.frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -33,7 +36,8 @@ public class PastWorkouts {
     /**
      * Create the application.
      */
-    public PastWorkouts() {
+    public PastWorkouts(User user) {
+        this.user = user;
         initialize();
     }
 
@@ -42,7 +46,7 @@ public class PastWorkouts {
      */
     private void initialize() {
         frame = new JFrame();
-        frame.setBounds(100, 100, 481, 493);
+        frame.setBounds(100, 100, 491, 571);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
         
@@ -77,5 +81,16 @@ public class PastWorkouts {
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(29, 151, 407, 142);
         frame.getContentPane().add(scrollPane);
+        
+        JButton btnMenu = new JButton("Main Menu");
+        btnMenu.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                MainMenu men = new MainMenu(user);
+                men.frame.setVisible(true);
+            }
+        });
+        btnMenu.setBounds(184, 472, 97, 25);
+        frame.getContentPane().add(btnMenu);
     }
 }

@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import javax.swing.JTextField;
 import controllers.UserController;
+import models.User;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -120,25 +121,36 @@ public class Register {
                 String uName = uNameF.getText();
                 String pass = pwF.getText();
                 String cPass = cpwF.getText();
-                String role = cpwF.getText();
-                
+                String role = roleF.getText();
+                UserController userManager = new UserController(connectionUrl, dbUsername, dbPassword);
                 if (!pass.equals(cPass)) {
                     JOptionPane.showMessageDialog(frame, "Password does not match");
                 }
-                /*
-                 * CHECK TO SEE IF USER EXISTS HERE
-                 * 
-                */
-                
-                UserController userManager = new UserController(connectionUrl, dbUsername, dbPassword);
-                
-//                else if (user exists) {
-//                    JOptionPane.showMessageDialog(frame, "User already exists");
-//                }
+                else if (uName.equals("") || fName.equals("") || lName.equals("")) {
+                    JOptionPane.showMessageDialog(frame, "Please fill in all required fields");
+                }
                 else {
-                    JOptionPane.showMessageDialog(frame, "Success. New User created");
-                    frame.dispose();
-                }   
+                    try {
+                        User user = userManager.getUserByUsername(uName);
+                        if (user == null) {
+                            user = new User(fName, lName, uName, pass, role);
+                            userManager.addUser(user);
+                            JOptionPane.showMessageDialog(frame, "Success: New User " + user.getUName() + " created"); 
+                            frame.dispose();
+                            Login newLog = new Login(connectionUrl, dbUsername, dbPassword);
+                            newLog.frame.setVisible(true);
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(frame, "ERROR: Username " + user.getUName() + " already exists");
+                        }
+                    }
+                    catch (ClassNotFoundException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+
+                }
+                
                 
             }
         });

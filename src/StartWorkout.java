@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import models.User;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +12,7 @@ import javax.swing.JButton;
 
 public class StartWorkout {
 
+    static User user = null;
 	JFrame frame;
 	private JTextField nameTF;
 
@@ -21,7 +23,7 @@ public class StartWorkout {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					StartWorkout window = new StartWorkout();
+					StartWorkout window = new StartWorkout(user);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -33,7 +35,8 @@ public class StartWorkout {
 	/**
 	 * Create the application.
 	 */
-	public StartWorkout() {
+	public StartWorkout(User user) {
+	    this.user = user;
 		initialize();
 	}
 
@@ -67,9 +70,11 @@ public class StartWorkout {
                 if (wName.equals("")) {
                     JOptionPane.showMessageDialog(frame, "Invalid Workout Name");
                 }
-                RecordWorkout rWO = new RecordWorkout();
-                rWO.frame.setVisible(true);
-                frame.setVisible(false);
+                else {
+                    RecordWorkout rWO = new RecordWorkout(user, wName);
+                    rWO.frame.setVisible(true);
+                    frame.dispose();
+                }
             }
         });
 		
