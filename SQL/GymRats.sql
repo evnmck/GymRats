@@ -45,7 +45,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `GymRats`.`Body_Progress` (
   `Tracking_Id` INT NOT NULL AUTO_INCREMENT,
   `FK_User_Id` INT NOT NULL,
-  `Date_Measured` DATE NULL DEFAULT (curdate()),
+  `Date_Measured` VARCHAR(45) NULL DEFAULT (curdate()),
   `Chest` DOUBLE NULL,
   `Waist` DOUBLE NULL,
   `Hips` DOUBLE NULL,
@@ -80,6 +80,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `GymRats`.`Workout` (
   `Workout_Id` INT NOT NULL,
+	`Workout_Name` VARCHAR(45),
   `FK_Exercise_Id` INT NOT NULL,
   `FK_User_Id` INT NOT NULL,
   `Start_Weight` INT NULL,
@@ -87,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `GymRats`.`Workout` (
   `Repetitions` INT NULL,
   `Sets` INT NULL,
   `Time_in_Minutes` INT NULL,
-  `Date` DATE NULL DEFAULT (curdate()),
+  `Date` VARCHAR(45) NULL DEFAULT (curdate()),
   PRIMARY KEY (`Workout_Id`, `FK_Exercise_Id`, `FK_User_Id`),
   INDEX `FK_User_Id_idx` (`FK_User_Id` ASC) VISIBLE,
   INDEX `FK_Exercise_Id_idx` (`FK_Exercise_Id` ASC) VISIBLE,
@@ -102,7 +103,6 @@ CREATE TABLE IF NOT EXISTS `GymRats`.`Workout` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `GymRats`.`Comments`
@@ -145,4 +145,5 @@ WHERE User.User_Id = Workout.FK_User_Id and Exercise.Exercise_Id = Workout.FK_Ex
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
 
