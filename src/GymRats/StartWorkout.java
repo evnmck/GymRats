@@ -17,6 +17,7 @@ public class StartWorkout {
 	static User user = null;
 	JFrame frame;
 	private JTextField nameTF;
+	private JTextField workID;
 
 	/**
 	 * Launch the application.
@@ -69,17 +70,29 @@ public class StartWorkout {
 		continueButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String wName = nameTF.getText();
-				if (wName.equals("")) {
-					JOptionPane.showMessageDialog(frame, "Invalid Workout Name");
+				String wID = workID.getText();
+
+				if (wName.equals("") || wID.equals("")) {
+					JOptionPane.showMessageDialog(frame, "Invalid Workout Name and/or ID");
 				} else {
-					RecordWorkout rWO = new RecordWorkout(user, wName);
+					RecordWorkout rWO = new RecordWorkout(user, wName, wID);
 					rWO.frame.setVisible(true);
 					frame.dispose();
 				}
+
 			}
 		});
 
 		continueButton.setBounds(277, 205, 117, 29);
 		frame.getContentPane().add(continueButton);
+
+		JLabel workIdLabel = new JLabel("Enter workout number:");
+		workIdLabel.setBounds(45, 154, 147, 16);
+		frame.getContentPane().add(workIdLabel);
+
+		workID = new JTextField();
+		workID.setBounds(221, 149, 130, 26);
+		frame.getContentPane().add(workID);
+		workID.setColumns(10);
 	}
 }

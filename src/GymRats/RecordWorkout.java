@@ -24,6 +24,7 @@ public class RecordWorkout {
 	private JTextField startWTF;
 	static User user = null;
 	static String woName = null;
+	static String woID = null;
 
 	/**
 	 * Launch the application.
@@ -32,7 +33,7 @@ public class RecordWorkout {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RecordWorkout window = new RecordWorkout(user, "");
+					RecordWorkout window = new RecordWorkout(user, "", "");
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,9 +45,10 @@ public class RecordWorkout {
 	/**
 	 * Create the application.
 	 */
-	public RecordWorkout(User user, String woName) {
+	public RecordWorkout(User user, String woName, String woID) {
 		this.user = user;
 		this.woName = woName;
+		this.woID = woID;
 		initialize();
 	}
 
