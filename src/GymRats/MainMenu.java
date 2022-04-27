@@ -63,8 +63,8 @@ public class MainMenu {
 		addWOButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				// WorkoutWindow wo = new WorkoutWindow(user);
-				// wo.frame.setVisible(true);
+				WorkoutWindow wo = new WorkoutWindow(user);
+				wo.frame.setVisible(true);
 			}
 		});
 		addWOButton.setBounds(196, 146, 109, 25);
@@ -74,8 +74,8 @@ public class MainMenu {
 		progressButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				// ProgressMenu men = new ProgressMenu(user);
-				// men.frame.setVisible(true);
+				ProgressMenu men = new ProgressMenu(user);
+				men.frame.setVisible(true);
 			}
 		});
 		progressButton.setBounds(196, 195, 109, 25);
@@ -84,8 +84,8 @@ public class MainMenu {
 		JButton profileButton = new JButton("Edit Profile");
 		profileButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// ProfileWindow pro = new ProfileWindow(user);
-				// pro.frame.setVisible(true);
+				ProfileWindow pro = new ProfileWindow(user);
+				pro.frame.setVisible(true);
 				frame.dispose();
 			}
 		});
@@ -100,8 +100,8 @@ public class MainMenu {
 		trainerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				// TrainerMenu tMenu = new TrainerMenu(user);
-				// tMenu.frame.setVisible(true);
+				TrainerMenu tMenu = new TrainerMenu(user);
+				tMenu.frame.setVisible(true);
 			}
 		});
 		trainerButton.setBounds(196, 290, 109, 25);

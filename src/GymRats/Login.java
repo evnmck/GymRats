@@ -114,8 +114,8 @@ public class Login {
 		btnRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Go to UserMenu screen
-				// Register regScreen = new Register();
-				// regScreen.frame.setVisible(true);
+				Register regScreen = new Register();
+				regScreen.frame.setVisible(true);
 				frame.dispose();
 			}
 		});
