@@ -6,6 +6,7 @@ public class Workout {
 	private int wId = -1;
 	private int eId = -1;
 	private int uId = -1;
+	private String wName;
 	private int startWeight = -1;
 	private int endWeight = -1;
 	private int reps = -1;
@@ -13,13 +14,23 @@ public class Workout {
 	private int time = -1;
 	private Date date;
 
+	public Workout(int user) {
+		this.uId = user;
+	}
+
+	public Workout(int user, int workout, String name) {
+		this.uId = user;
+		this.wId = workout;
+		this.wName = name;
+	}
+
 	public Workout(int workout, int exercise, int user) {
 		this.wId = workout;
 		this.eId = exercise;
 		this.uId = user;
 	}
 
-	public Workout(int workout, int exercise, int user, int start, int end, int reps, int sets, int time) {
+	public Workout(int workout, int exercise, int user, String name, int start, int end, int reps, int sets, int time) {
 		this.wId = workout;
 		this.eId = exercise;
 		this.uId = user;
@@ -28,6 +39,7 @@ public class Workout {
 		this.reps = reps;
 		this.sets = sets;
 		this.time = time;
+		this.wName = name;
 	}
 
 	public void setWId(int id) {
@@ -52,6 +64,14 @@ public class Workout {
 
 	public int getUid() {
 		return this.uId;
+	}
+
+	public void setName(String name) {
+		this.wName = name;
+	}
+
+	public String getName() {
+		return this.wName;
 	}
 
 	public void setSWeight(int weight) {

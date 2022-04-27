@@ -51,6 +51,14 @@ public class WorkoutController {
 		return null;
 	}
 
+	public ArrayList<Workout> addAllWorkoutsforWID(ArrayList<Workout> add) throws ClassNotFoundException {
+		ArrayList<Workout> ret = new ArrayList<Workout>();
+		for (int i = 0; i < add.size(); i++) {
+			ret.add(addWorkout(add.get(i)));
+		}
+		return ret;
+	}
+
 	public Workout deleteWorkout(int wId, int eId, int uId) throws ClassNotFoundException {
 		Workout deleted = getWorkout(wId, eId, uId);
 		String sqlSelectAllPersons = "DELETE FROM workout WHERE Workout_Id = " + wId + " && FK_Exercise_Id = " + eId
