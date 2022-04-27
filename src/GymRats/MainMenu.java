@@ -12,6 +12,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
 
 public class MainMenu {
 
@@ -19,7 +20,7 @@ public class MainMenu {
 	static User user = null;
 	private static String connectionUrl = "jdbc:mysql://127.0.0.1:3306/gymrats"; // could be different
 	private static String dbUsername = "root"; // replace with your username (most likely "root")
-	private static String dbPassword = "382682498Mck!"; // replace with your password
+	private static String dbPassword = "@Tuan_1010"; // replace with your password
 
 	/**
 	 * Launch the application.
@@ -54,9 +55,10 @@ public class MainMenu {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		JLabel mainLbl = new JLabel("WELCOME " + user.getFName().toUpperCase() + " " + user.getLName().toUpperCase());
+		JLabel mainLbl = new JLabel("WELCOME " + user.getFName().toUpperCase() + " " + user.getLName().toUpperCase(), SwingConstants.CENTER);
+		mainLbl.setFont(new Font("Tahoma", Font.BOLD, 17));
 		mainLbl.setHorizontalAlignment(SwingConstants.CENTER);
-		mainLbl.setBounds(174, 28, 157, 46);
+		mainLbl.setBounds(97, 0, 314, 88);
 		frame.getContentPane().add(mainLbl);
 
 		JButton addWOButton = new JButton("Workouts");
@@ -123,5 +125,10 @@ public class MainMenu {
 		});
 		logoutButton.setBounds(12, 406, 109, 25);
 		frame.getContentPane().add(logoutButton);
+		
+		JLabel lblBio = new JLabel(user.getBio(), SwingConstants.CENTER);
+		lblBio.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblBio.setBounds(119, 71, 272, 62);
+		frame.getContentPane().add(lblBio);
 	}
 }

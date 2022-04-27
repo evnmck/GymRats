@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import controllers.UserController;
 import models.User;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -13,6 +14,10 @@ import java.awt.event.ActionEvent;
 
 public class ProfileWindow {
 
+    private static String connectionUrl = "jdbc:mysql://127.0.0.1:3306/gymrats"; // could be different
+    private static String dbUsername = "root"; // replace with your username (most likely "root")
+    private static String dbPassword = "@Tuan_1010"; // replace with your password
+    
 	protected JFrame frame;
 	private JTextField fNameF;
 	private JTextField lNameF;
@@ -113,29 +118,50 @@ public class ProfileWindow {
 				String pass = pwF.getText();
 				String cPass = cpwF.getText();
 				String bio = bioF.getText();
-
-				if (!pass.equals(cPass)) {
-					JOptionPane.showMessageDialog(frame, "Password does not match");
-				} else {
-					/*
-					 * @TODO: ADD DB LOGIC TO MODIFY EXISTING USER HERE
-					 * 
-					 * Check if fName, lName, or bio needs to be modified. If any of the fields is
-					 * not blank, update user in DB with new attribute. If BLANK, then don't modify
-					 * 
-					 * BACKEND: NEED TO HAVE SETTERS in user to MODIFY fname, lname, etc.. or delete
-					 * private for each field in user to make it quicker i.e "private String fName"
-					 * becomes "String fname"
-					 * 
-					 * and need a function to update user in DB with modified ATTRIBUTES
-					 */
-
-					// Dispose current frame and return to Main menu
-					JOptionPane.showMessageDialog(frame, "Success. Your changes have been saved");
-					frame.dispose();
-					MainMenu retMen = new MainMenu(user);
-					retMen.frame.setVisible(true);
+				
+				try {
+                    UserController controller = new UserController(connectionUrl, dbUsername, dbPassword);
+                    if (!pass.equals(cPass)) {
+                        JOptionPane.showMessageDialog(frame, "Password does not match");
+                    } else {
+                        /*
+                         * @TODO: ADD DB LOGIC TO MODIFY EXISTING USER HERE
+                         * 
+                         * Check if fName, lName, or bio needs to be modified. If any of the fields is
+                         * not blank, update user in DB with new attribute. If BLANK, then don't modify
+                         * 
+                         * BACKEND: NEED TO HAVE SETTERS in user to MODIFY fname, lname, etc.. or delete
+                         * private for each field in user to make it quicker i.e "private String fName"
+                         * becomes "String fname"
+                         * 
+                         * and need a function to update user in DB with modified ATTRIBUTES
+                         */
+                        if (!fName.equals("")) {
+                            controller.changeFName(user.getUId(), fName);
+                        }
+                        if (!lName.equals("")) {
+                            controller.changeLName(user.getUId(), lName);
+                        }
+                        if (!pass.equals("")) {
+                            controller.changePassword(user.getUId(), pass);
+                        }
+                        if (!bio.equals("")) {
+                            controller.changeBio(user.getUId(), bio);
+                        }
+                        // Dispose current frame and return to Main menu
+                        JOptionPane.showMessageDialog(frame, "Success. Your changes have been saved");
+                        frame.dispose();
+                        MainMenu retMen = new MainMenu(controller.getUser(user.getUId()));
+                        retMen.frame.setVisible(true);
+                    }
+				
+				
 				}
+                catch (ClassNotFoundException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+				
 
 			}
 		});
