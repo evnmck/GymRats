@@ -82,6 +82,9 @@ public class WorkoutController {
 			while (rs.next()) {
 				Workout sub = new Workout(rs.getInt("Workout_Id"), rs.getInt("FK_Exercise_Id"),
 						rs.getInt("FK_User_Id"));
+				if (rs.getString("Workout_Name") != null) {
+					sub.setName(rs.getString("Workout_Name"));
+				}
 				if (rs.getInt("Start_Weight") >= 0) {
 					sub.setSWeight(rs.getInt("Start_Weight"));
 				}
@@ -97,8 +100,8 @@ public class WorkoutController {
 				if (rs.getInt("Time_in_Minutes") >= 0) {
 					sub.setTime(rs.getInt("Time_in_Minutes"));
 				}
-				if (rs.getDate("Date") != null) {
-					sub.setDate(rs.getDate("Date"));
+				if (rs.getString("Date") != null) {
+					sub.setDate(rs.getString("Date"));
 				}
 				return sub;
 			}
@@ -117,6 +120,9 @@ public class WorkoutController {
 			while (rs.next()) {
 				Workout sub = new Workout(rs.getInt("Workout_Id"), rs.getInt("FK_Exercise_Id"),
 						rs.getInt("FK_User_Id"));
+				if (rs.getString("Workout_Name") != null) {
+					sub.setName(rs.getString("Workout_Name"));
+				}
 				if (rs.getInt("Start_Weight") >= 0) {
 					sub.setSWeight(rs.getInt("Start_Weight"));
 				}
@@ -132,8 +138,8 @@ public class WorkoutController {
 				if (rs.getInt("Time_in_Minutes") >= 0) {
 					sub.setTime(rs.getInt("Time_in_Minutes"));
 				}
-				if (rs.getDate("Date") != null) {
-					sub.setDate(rs.getDate("Date"));
+				if (rs.getString("Date") != null) {
+					sub.setDate(rs.getString("Date"));
 				}
 				ret.add(sub);
 			}

@@ -5,7 +5,7 @@ import java.util.Date;
 public class BodyProgress {
 	private int trackingId = -1;
 	private int userId = -1;
-	private Date measured;
+	private String measured;
 	private double chest = -1.0;
 	private double waist = -1.0;
 	private double hips = -1.0;
@@ -54,11 +54,11 @@ public class BodyProgress {
 		this.chest = chest;
 	}
 
-	public Date getMeasured() {
+	public String getMeasured() {
 		return measured;
 	}
 
-	public void setMeasured(Date measured) {
+	public void setMeasured(String measured) {
 		this.measured = measured;
 	}
 

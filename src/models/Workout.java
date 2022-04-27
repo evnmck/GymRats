@@ -12,7 +12,7 @@ public class Workout {
 	private int reps = -1;
 	private int sets = -1;
 	private int time = -1;
-	private Date date;
+	private String date;
 
 	public Workout(int user) {
 		this.uId = user;
@@ -114,11 +114,11 @@ public class Workout {
 		return this.time;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return this.date;
 	}
 
@@ -126,12 +126,14 @@ public class Workout {
 	public String toString() {
 		if (this.date == null) {
 			return "{Workout_Id: " + this.wId + ", FK_Exercise_Id: " + this.eId + ", FK_User_Id: " + this.uId
-					+ ", Start_Weight: " + this.startWeight + ", End_Weight: " + this.endWeight + ", Sets: "
-					+ this.endWeight + ", Sets: " + this.sets + ", Time_in_Minutes: " + this.time + ", Date: ''}";
+					+ ", Workout_Name: " + this.wName + ", Start_Weight: " + this.startWeight + ", End_Weight: "
+					+ this.endWeight + ", Sets: " + this.endWeight + ", Sets: " + this.sets + ", Time_in_Minutes: "
+					+ this.time + ", Date: ''}";
 		}
 		return "{Workout_Id: " + this.wId + ", FK_Exercise_Id: " + this.eId + ", FK_User_Id: " + this.uId
-				+ ", Start_Weight: " + this.startWeight + ", End_Weight: " + this.endWeight + ", Sets: "
-				+ this.endWeight + ", Sets: " + this.sets + ", Time_in_Minutes: " + this.time + ", Date: " + date + "}";
+				+ ", Workout_Name: " + this.wName + ", Start_Weight: " + this.startWeight + ", End_Weight: "
+				+ this.endWeight + ", Sets: " + this.endWeight + ", Sets: " + this.sets + ", Time_in_Minutes: "
+				+ this.time + ", Date: " + date + "}";
 	}
 
 }

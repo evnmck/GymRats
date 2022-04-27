@@ -85,8 +85,8 @@ public class BodyProgressController {
 			while (rs.next()) {
 				BodyProgress sub = new BodyProgress(rs.getInt("FK_User_Id"));
 				sub.setTrackingId(rs.getInt("Tracking_Id"));
-				if (rs.getDate("Date_Measured") != null) {
-					sub.setMeasured(rs.getDate("Date_Measured"));
+				if (rs.getString("Date_Measured") != null) {
+					sub.setMeasured(rs.getString("Date_Measured"));
 				}
 				if (rs.getDouble("Chest") >= 0.0) {
 					sub.setChest(rs.getDouble("Chest"));
@@ -126,8 +126,8 @@ public class BodyProgressController {
 			while (rs.next()) {
 				BodyProgress sub = new BodyProgress(rs.getInt("FK_User_Id"));
 				sub.setTrackingId(rs.getInt("Tracking_Id"));
-				if (rs.getDate("Date_Measured") != null) {
-					sub.setMeasured(rs.getDate("Date_Measured"));
+				if (rs.getString("Date_Measured") != null) {
+					sub.setMeasured(rs.getString("Date_Measured"));
 				}
 				if (rs.getDouble("Chest") >= 0.0) {
 					sub.setChest(rs.getDouble("Chest"));
@@ -168,8 +168,8 @@ public class BodyProgressController {
 			while (rs.next()) {
 				BodyProgress sub = new BodyProgress(rs.getInt("FK_User_Id"));
 				sub.setTrackingId(rs.getInt("Tracking_Id"));
-				if (rs.getDate("Date_Measured") != null) {
-					sub.setMeasured(rs.getDate("Date_Measured"));
+				if (rs.getString("Date_Measured") != null) {
+					sub.setMeasured(rs.getString("Date_Measured"));
 				}
 				if (rs.getDouble("Chest") >= 0.0) {
 					sub.setChest(rs.getDouble("Chest"));
