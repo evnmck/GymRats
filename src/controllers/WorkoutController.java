@@ -24,15 +24,15 @@ public class WorkoutController {
 	public Workout addWorkout(Workout workout) throws ClassNotFoundException {
 		String sqlSelectAllPersons = null;
 		if (workout.getDate() != null) {
-			sqlSelectAllPersons = "INSERT INTO workout (Workout_Id, FK_Exercise_Id, FK_User_Id, Start_Weight, End_Weight, Repetitions, Sets, Time_in_Minutes, Date) VALUES ("
-					+ workout.getWId() + ", " + workout.getEId() + ", " + workout.getUid() + ", " + workout.getSWeight()
-					+ ", " + workout.getEWeight() + ", " + workout.getReps() + ", " + workout.getSets() + ", "
-					+ workout.getTime() + ", '" + workout.getDate() + "')";
+			sqlSelectAllPersons = "INSERT INTO workout (Workout_Id, FK_Exercise_Id, FK_User_Id, Workout_Name, Start_Weight, End_Weight, Repetitions, Sets, Time_in_Minutes, Date) VALUES ("
+					+ workout.getWId() + ", " + workout.getEId() + ", " + workout.getUid() + ", " + workout.getName()
+					+ ", " + workout.getSWeight() + ", " + workout.getEWeight() + ", " + workout.getReps() + ", "
+					+ workout.getSets() + ", " + workout.getTime() + ", '" + workout.getDate() + "')";
 		} else {
-			sqlSelectAllPersons = "INSERT INTO workout (Workout_Id, FK_Exercise_Id, FK_User_Id, Start_Weight, End_Weight, Repetitions, Sets, Time_in_Minutes) VALUES ("
-					+ workout.getWId() + ", " + workout.getEId() + ", " + workout.getUid() + ", " + workout.getSWeight()
-					+ ", " + workout.getEWeight() + ", " + workout.getReps() + ", " + workout.getSets() + ", "
-					+ workout.getTime() + ")";
+			sqlSelectAllPersons = "INSERT INTO workout (Workout_Id, FK_Exercise_Id, FK_User_Id, Workout_Name,  Start_Weight, End_Weight, Repetitions, Sets, Time_in_Minutes) VALUES ("
+					+ workout.getWId() + ", " + workout.getEId() + ", " + workout.getUid() + ", " + workout.getName()
+					+ ", " + workout.getSWeight() + ", " + workout.getEWeight() + ", " + workout.getReps() + ", "
+					+ workout.getSets() + ", " + workout.getTime() + ")";
 		}
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);) {

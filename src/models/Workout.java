@@ -6,7 +6,7 @@ public class Workout {
 	private int wId = -1;
 	private int eId = -1;
 	private int uId = -1;
-	private String wName;
+	private String wName = "";
 	private int startWeight = -1;
 	private int endWeight = -1;
 	private int reps = -1;
