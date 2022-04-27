@@ -60,6 +60,28 @@ public class User {
 		return this.role;
 	}
 
+	public void setFName(String FName) {
+		if (FName != null) {
+			this.fName = FName;
+			;
+		}
+	}
+
+	public void setLName(String LName) {
+		if (LName != null) {
+			this.fName = LName;
+			;
+		}
+
+	}
+
+	public void setPassword(String pword) {
+		if (pword != null) {
+			this.pWord = pword;
+		}
+
+	}
+
 	public void setBio(String bio) {
 		this.bio = bio;
 	}

@@ -120,6 +120,42 @@ public class UserController {
 		return null;
 	}
 
+	public User changePassword(int id, String pword) throws ClassNotFoundException {
+		String sqlSelectAllPersons = "UPDATE user SET Password = '" + pword + "' WHERE User_Id = " + id;
+		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
+				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);) {
+			ps.execute();
+			return getUser(id);
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return null;
+	}
+
+	public User changeFName(int id, String fName) throws ClassNotFoundException {
+		String sqlSelectAllPersons = "UPDATE user SET FName = '" + fName + "' WHERE User_Id = " + id;
+		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
+				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);) {
+			ps.execute();
+			return getUser(id);
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return null;
+	}
+
+	public User changeLName(int id, String lName) throws ClassNotFoundException {
+		String sqlSelectAllPersons = "UPDATE user SET LName = '" + lName + "' WHERE User_Id = " + id;
+		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
+				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);) {
+			ps.execute();
+			return getUser(id);
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return null;
+	}
+
 	public User changeBio(int id, String bio) throws ClassNotFoundException {
 		String sqlSelectAllPersons = "UPDATE user SET Bio = '" + bio + "' WHERE User_Id = " + id;
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
@@ -142,6 +178,29 @@ public class UserController {
 			System.out.println(e);
 		}
 		return null;
+	}
+
+	public User changeAll(int id, String fName, String lName, String bio, String password, int tId)
+			throws ClassNotFoundException {
+		User ret = null;
+		if (fName != null) {
+			ret = changeFName(id, fName);
+		}
+		if (lName != null) {
+			ret = changeLName(id, lName);
+		}
+		if (password != null) {
+			ret = changePassword(id, password);
+		}
+		if (bio != null) {
+			ret = changeBio(id, bio);
+		}
+		if (tId > 0) {
+			ret = changeTrainer(id, tId);
+		}
+
+		return ret;
+
 	}
 
 	public User deleteUserByUserId(int userId) throws ClassNotFoundException {
