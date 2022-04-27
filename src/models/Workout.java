@@ -104,6 +104,11 @@ public class Workout {
 
 	@Override
 	public String toString() {
+		if (this.date == null) {
+			return "{Workout_Id: " + this.wId + ", FK_Exercise_Id: " + this.eId + ", FK_User_Id: " + this.uId
+					+ ", Start_Weight: " + this.startWeight + ", End_Weight: " + this.endWeight + ", Sets: "
+					+ this.endWeight + ", Sets: " + this.sets + ", Time_in_Minutes: " + this.time + ", Date: ''}";
+		}
 		return "{Workout_Id: " + this.wId + ", FK_Exercise_Id: " + this.eId + ", FK_User_Id: " + this.uId
 				+ ", Start_Weight: " + this.startWeight + ", End_Weight: " + this.endWeight + ", Sets: "
 				+ this.endWeight + ", Sets: " + this.sets + ", Time_in_Minutes: " + this.time + ", Date: " + date + "}";

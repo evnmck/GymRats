@@ -1,7 +1,5 @@
 package models;
 
-import models.Role;
-
 public class User {
 	private int userId = -1;
 	private String fName;
@@ -17,12 +15,12 @@ public class User {
 		this.lName = lName;
 		this.uName = uName;
 		this.pWord = pWord;
-		if (role.toLowerCase().equals("user")) {
-			this.role = Role.USER;
-		} else if (role.toLowerCase().equals("trainer")) {
+		if (role.toLowerCase().equals("trainer")) {
 			this.role = Role.TRAINER;
 		} else if (role.toLowerCase().equals("admin")) {
 			this.role = Role.ADMIN;
+		} else {
+			this.role = Role.USER;
 		}
 	}
 
@@ -96,6 +94,11 @@ public class User {
 
 	@Override
 	public String toString() {
+		if (this.bio == null) {
+			return "{User_Id: " + this.userId + ", Fname: " + this.fName + ", Lname: " + this.lName + ", Username: "
+					+ this.uName + ", Password: " + this.pWord + ", Bio: '', FK_Trainer_Id: " + this.trainerId
+					+ ", Role: " + this.role.toString() + "}";
+		}
 		return "{User_Id: " + this.userId + ", Fname: " + this.fName + ", Lname: " + this.lName + ", Username: "
 				+ this.uName + ", Password: " + this.pWord + ", Bio: " + this.bio + ", FK_Trainer_Id: " + this.trainerId
 				+ ", Role: " + this.role.toString() + "}";

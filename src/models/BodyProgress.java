@@ -113,6 +113,11 @@ public class BodyProgress {
 	// TODO
 	@Override
 	public String toString() {
+		if (this.measured == null) {
+			return "{Tracking_Id: " + this.trackingId + ", FK_User_Id: " + this.userId + ", Date_Meaures: ' ', Chest: "
+					+ this.chest + ", Waist: " + this.waist + ", Hips: " + this.hips + ", Biceps: " + this.biceps
+					+ ", Thigh: " + this.thigh + ", Weight: " + this.weight + ", Height: " + this.height + "}";
+		}
 		return "{Tracking_Id: " + this.trackingId + ", FK_User_Id: " + this.userId + ", Date_Meaures: " + this.measured
 				+ ", Chest: " + this.chest + ", Waist: " + this.waist + ", Hips: " + this.hips + ", Biceps: "
 				+ this.biceps + ", Thigh: " + this.thigh + ", Weight: " + this.weight + ", Height: " + this.height

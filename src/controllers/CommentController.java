@@ -37,6 +37,7 @@ public class CommentController {
 				ps.execute();
 			} catch (SQLIntegrityConstraintViolationException e) {
 				System.out.println("Error: Username already taken.");
+				return null;
 			}
 			return getComment(com.getCommenterId(), com.getWorkoutId());
 		} catch (SQLException e) {

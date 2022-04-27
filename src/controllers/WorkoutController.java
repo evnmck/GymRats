@@ -74,7 +74,6 @@ public class WorkoutController {
 			while (rs.next()) {
 				Workout sub = new Workout(rs.getInt("Workout_Id"), rs.getInt("FK_Exercise_Id"),
 						rs.getInt("FK_User_Id"));
-				sub.setWId(rs.getInt("Workout_Id"));
 				if (rs.getInt("Start_Weight") >= 0) {
 					sub.setSWeight(rs.getInt("Start_Weight"));
 				}
@@ -110,7 +109,6 @@ public class WorkoutController {
 			while (rs.next()) {
 				Workout sub = new Workout(rs.getInt("Workout_Id"), rs.getInt("FK_Exercise_Id"),
 						rs.getInt("FK_User_Id"));
-				sub.setWId(rs.getInt("Workout_Id"));
 				if (rs.getInt("Start_Weight") >= 0) {
 					sub.setSWeight(rs.getInt("Start_Weight"));
 				}
