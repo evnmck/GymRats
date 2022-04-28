@@ -1,15 +1,19 @@
 package GymRats;
 
 import java.awt.EventQueue;
+import controllers.BodyProgressController;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import models.BodyProgress;
 import models.User;
 import javax.swing.JScrollPane;
 
@@ -17,6 +21,11 @@ public class ProgressMenu {
 
 	JFrame frame;
 	static User user;
+	
+	
+	private static String connectionUrl = "jdbc:mysql://127.0.0.1:3306/gymrats"; // could be different
+    private static String dbUsername = "root"; // replace with your username (most likely "root")
+    private static String dbPassword = "@pranav123"; // replace with your password
 
 	/**
 	 * Launch the application.
@@ -85,5 +94,34 @@ public class ProgressMenu {
 		});
 		btnMenu.setBounds(195, 395, 97, 25);
 		frame.getContentPane().add(btnMenu);
+		
+		BodyProgressController bodyprog = new BodyProgressController(connectionUrl,dbUsername, dbPassword);
+		public void actionPerformed(ActionEvent e) {
+			
+			
+			
+			ArrayList<BodyProgress> bodyprog1 = bodyprog.getBodyProgressesForUser(user.getUId());
+			
+			for(int i; i < bodyprog1.size(); i++) {
+				
+				String[] row;
+				row[0] = bodyprog1.get(0).toString();
+				
+				
+				
+				
+				
+				
+				
+			}
+			
+			
+			
+			
+			
+		}
+		
+		
+		
 	}
 }

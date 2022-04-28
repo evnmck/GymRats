@@ -21,6 +21,11 @@ public class TrainerMenu {
 	private JTable table;
 	static User user;
 
+	
+	
+	private static String connectionUrl = "jdbc:mysql://127.0.0.1:3306/gymrats"; // could be different
+    private static String dbUsername = "root"; // replace with your username (most likely "root")
+    private static String dbPassword = "@pranav123"; // replace with your password
 	/**
 	 * Launch the application.
 	 */

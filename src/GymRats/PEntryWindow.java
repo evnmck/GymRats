@@ -16,15 +16,22 @@ import java.awt.event.ActionEvent;
 
 public class PEntryWindow {
 
-	JFrame frame;
+	//JFrame frame;
 	private JTextField weightTF;
 	private JTextField chestTF;
 	private JTextField bicepTF;
 	private JTextField hipsTF;
 	private JTextField waistTF;
 	private JTextField thighTF;
-	static User user;
+	//static User user;
 
+	JFrame frame;
+	static User user = null;
+	private static String connectionUrl = "jdbc:mysql://127.0.0.1:3306/gymrats"; // could be different
+	private static String dbUsername = "root"; // replace with your username (most likely "root")
+	private static String dbPassword = "pranav123"; // replace with your password
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -130,5 +137,14 @@ public class PEntryWindow {
 		JLabel lblDate = new JLabel("Add a new progress report for: " + strDate);
 		lblDate.setBounds(133, 13, 278, 32);
 		frame.getContentPane().add(lblDate);
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 }
