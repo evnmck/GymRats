@@ -61,11 +61,24 @@ public class CommentController {
 
 	public Comment deleteComment(int cId, int wId) throws ClassNotFoundException {
 		Comment ret = getComment(cId, wId);
-		String sqlSelectAllPersons = "DELETE * FROM comments WHERE FK_Commenter_Id = " + cId + " && FK_Workout_Id = "
+		String sqlSelectAllPersons = "DELETE FROM comments WHERE FK_Commenter_Id = " + cId + " && FK_Workout_Id = "
 				+ wId;
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);) {
 			ps.executeQuery();
+			return ret;
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return null;
+	}
+
+	public ArrayList<Comment> deleteCommentsWID(int wId) throws ClassNotFoundException {
+		ArrayList<Comment> ret = getCommentsforWID(wId);
+		String sqlSelectAllPersons = "DELETE FROM comments WHERE FK_Workout_Id = " + wId;
+		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
+				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);) {
+			ps.execute();
 			return ret;
 		} catch (SQLException e) {
 			System.out.println(e);
@@ -93,6 +106,25 @@ public class CommentController {
 
 	public ArrayList<Comment> getComments() throws ClassNotFoundException {
 		String sqlSelectAllPersons = "SELECT * FROM comments";
+		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
+				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);
+				ResultSet rs = ps.executeQuery()) {
+			ArrayList<Comment> ret = new ArrayList<Comment>();
+			while (rs.next()) {
+				Comment sub = new Comment(rs.getInt("FK_Commenter_Id"), rs.getInt("FK_Workout_Id"),
+						rs.getString("Comment"));
+				ret.add(sub);
+			}
+			return ret;
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return null;
+
+	}
+
+	public ArrayList<Comment> getCommentsforWID(int wId) throws ClassNotFoundException {
+		String sqlSelectAllPersons = "SELECT * FROM comments WHERE FK_Workout_Id =" + wId;
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);
 				ResultSet rs = ps.executeQuery()) {

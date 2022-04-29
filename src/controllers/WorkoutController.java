@@ -60,6 +60,8 @@ public class WorkoutController {
 
 	public Workout deleteWorkout(int wId, int eId, int uId) throws ClassNotFoundException {
 		Workout deleted = getWorkout(wId, eId, uId);
+		CommentController comment = new CommentController(this.connectionUrl, this.dbUsername, this.dbPassword);
+		comment.deleteCommentsWID(wId);
 		String sqlSelectAllPersons = "DELETE FROM workout WHERE Workout_Id = " + wId + " && FK_Exercise_Id = " + eId
 				+ " && FK_User_Id = " + uId;
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
@@ -71,7 +73,7 @@ public class WorkoutController {
 		}
 		return null;
 	}
-	
+
 	public ArrayList<Workout> getAllWorkoutEntries(int wId, int uId) throws ClassNotFoundException {
 		String sqlSelectAllPersons = "SELECT * FROM workout WHERE Workout_Id = " + wId + " && FK_User_Id = " + uId;
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
@@ -111,7 +113,7 @@ public class WorkoutController {
 		}
 		return null;
 	}
-	
+
 	public ArrayList<Workout> getAllWorkoutforUser(int uId) throws ClassNotFoundException {
 		String sqlSelectAllPersons = "SELECT * FROM workout WHERE FK_User_Id = " + uId;
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
@@ -151,7 +153,6 @@ public class WorkoutController {
 		}
 		return null;
 	}
-
 
 	public Workout getWorkout(int wId, int eId, int uId) throws ClassNotFoundException {
 		String sqlSelectAllPersons = "SELECT * FROM workout WHERE Workout_Id = " + wId + " && FK_Exercise_Id = " + eId
