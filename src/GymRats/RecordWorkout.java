@@ -7,12 +7,20 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
+import controllers.ExerciseController;
+import controllers.WorkoutController;
+import models.Exercise;
 import models.User;
+import models.Workout;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JSlider;
 
 public class RecordWorkout {
 
@@ -25,6 +33,14 @@ public class RecordWorkout {
 	static User user = null;
 	static String woName = null;
 	static String woID = null;
+	private JTable table;
+	
+	private static String connectionUrl = "jdbc:mysql://127.0.0.1:3306/gymrats"; // could be different
+	private static String dbUsername = "root"; // replace with your username (most likely "root")
+	private static String dbPassword = "382682498Mck!"; // replace with your password
+	
+	DefaultTableModel model;
+
 
 	/**
 	 * Launch the application.
@@ -44,8 +60,9 @@ public class RecordWorkout {
 
 	/**
 	 * Create the application.
+	 * @throws ClassNotFoundException 
 	 */
-	public RecordWorkout(User user, String woName, String woID) {
+	public RecordWorkout(User user, String woName, String woID) throws ClassNotFoundException {
 		this.user = user;
 		this.woName = woName;
 		this.woID = woID;
@@ -54,8 +71,9 @@ public class RecordWorkout {
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws ClassNotFoundException 
 	 */
-	private void initialize() {
+	private void initialize() throws ClassNotFoundException {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 572, 572);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -111,13 +129,8 @@ public class RecordWorkout {
 		frame.getContentPane().add(startWTF);
 		startWTF.setColumns(10);
 
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(44, 262, 472, 207);
-		frame.getContentPane().add(scrollPane);
 
-		JButton addEntryButton = new JButton("Add Entry");
-		addEntryButton.setBounds(331, 193, 117, 29);
-		frame.getContentPane().add(addEntryButton);
+
 
 		JButton btnEnd = new JButton("End Workout");
 		btnEnd.addActionListener(new ActionListener() {
@@ -130,5 +143,80 @@ public class RecordWorkout {
 		});
 		btnEnd.setBounds(220, 482, 130, 25);
 		frame.getContentPane().add(btnEnd);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(38, 275, 496, 195);
+		frame.getContentPane().add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		model = new DefaultTableModel();
+		Object [] column = {"Exercise Name", "Weight", "# of sets", "# of reps", "Starting weight"};
+	
+	
+		Object[] row = new Object[5];
+		
+		
+		//Object[] row = {exName, weight, sets, reps, startW}; //change this to add exercise
+		model.setColumnIdentifiers(column);
+		table.setModel(model);
+		
+		
+		
+		ExerciseController myExercise = new ExerciseController(connectionUrl, dbUsername, dbPassword);
+		//Exercise currEx = new Exercise(startW);
+		JButton addEntryButton = new JButton("Add Entry");
+		WorkoutController myWorkoutController = new WorkoutController(connectionUrl, dbUsername, dbPassword);
+
+		int uID = user.getUId();
+		int wID = Integer.parseInt(woID);
+		//Workout(int workout, int exercise, int user, String name, int start, int end, int reps, int sets, int time) {
+		
+
+		addEntryButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String exName = exNameTF.getText();
+				String weight = weightTF.getText();
+				String sets = setsTF.getText();
+				String reps = repsTF.getText();
+				String startW = startWTF.getText();
+				
+				Exercise currExercise = null;
+				try {
+					System.out.println("NAME: " + exName);
+					currExercise = myExercise.getExerciseByExerciseName(exName);
+				} catch (ClassNotFoundException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				int exID = currExercise.getEId();
+				Workout myWorkout = new Workout(wID, exID, uID);				
+
+				myWorkout.setEWeight(Integer.parseInt(weight));
+				myWorkout.setSets(Integer.parseInt(sets));
+				myWorkout.setReps(Integer.parseInt(reps));
+				myWorkout.setSWeight(Integer.parseInt(startW));
+				myWorkout.setTime(0);
+				myWorkout.setName(woName);
+				
+				try {
+					myWorkoutController.addWorkout(myWorkout);
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+				
+				row[0] = exNameTF.getText();
+				row[1] = weightTF.getText();
+				row[2] = setsTF.getText();
+				row[3] = repsTF.getText();
+				row[4] =  startWTF.getText();
+				model.addRow(row);
+			}
+		});
+		addEntryButton.setBounds(331, 193, 117, 29);
+		frame.getContentPane().add(addEntryButton);
+		
 	}
 }

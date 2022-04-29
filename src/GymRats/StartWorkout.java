@@ -75,7 +75,13 @@ public class StartWorkout {
 				if (wName.equals("") || wID.equals("")) {
 					JOptionPane.showMessageDialog(frame, "Invalid Workout Name and/or ID");
 				} else {
-					RecordWorkout rWO = new RecordWorkout(user, wName, wID);
+					RecordWorkout rWO = null;
+					try {
+						rWO = new RecordWorkout(user, wName, wID);
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					rWO.frame.setVisible(true);
 					frame.dispose();
 				}
