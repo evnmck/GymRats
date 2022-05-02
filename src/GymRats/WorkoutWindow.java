@@ -73,9 +73,17 @@ public class WorkoutWindow {
 		JButton pastWorkoutButton = new JButton("View Past Workouts");
 		pastWorkoutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PastWorkouts pWO = new PastWorkouts(user);
-				pWO.frame.setVisible(true);
-				frame.setVisible(false);
+				PastWorkouts pWO;
+                try {
+                    pWO = new PastWorkouts(user);
+                    pWO.frame.setVisible(true);
+                    frame.setVisible(false);
+                }
+                catch (ClassNotFoundException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+				
 			}
 		});
 		pastWorkoutButton.setBounds(139, 116, 167, 29);
@@ -85,8 +93,16 @@ public class WorkoutWindow {
 		prStatsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				PRWindow win = new PRWindow(user);
-				win.frame.setVisible(true);
+				PRWindow win;
+                try {
+                    win = new PRWindow(user);
+                    win.frame.setVisible(true);
+                }
+                catch (ClassNotFoundException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+				
 			}
 		});
 		prStatsButton.setBounds(139, 162, 167, 29);

@@ -30,8 +30,8 @@ public class WorkoutController {
 					+ workout.getSets() + ", " + workout.getTime() + ", '" + workout.getDate() + "')";
 		} else {
 			sqlSelectAllPersons = "INSERT INTO workout (Workout_Id, FK_Exercise_Id, FK_User_Id, Workout_Name,  Start_Weight, End_Weight, Repetitions, Sets, Time_in_Minutes) VALUES ("
-					+ workout.getWId() + ", " + workout.getEId() + ", " + workout.getUid() + ", " + workout.getName()
-					+ ", " + workout.getSWeight() + ", " + workout.getEWeight() + ", " + workout.getReps() + ", "
+					+ workout.getWId() + ", " + workout.getEId() + ", " + workout.getUid() + ", '" + workout.getName()
+					+ "', " + workout.getSWeight() + ", " + workout.getEWeight() + ", " + workout.getReps() + ", "
 					+ workout.getSets() + ", " + workout.getTime() + ")";
 		}
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
@@ -42,7 +42,6 @@ public class WorkoutController {
 				System.out.println("Error: Username already taken.");
 				return null;
 			}
-			System.out.println("Success");
 			return getWorkout(workout.getWId(), workout.getEId(), workout.getUid());
 
 		} catch (SQLException e) {
@@ -72,6 +71,87 @@ public class WorkoutController {
 		}
 		return null;
 	}
+	
+	public ArrayList<Workout> getAllWorkoutEntries(int wId, int uId) throws ClassNotFoundException {
+		String sqlSelectAllPersons = "SELECT * FROM workout WHERE Workout_Id = " + wId + " && FK_User_Id = " + uId;
+		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
+				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);
+				ResultSet rs = ps.executeQuery()) {
+			ArrayList<Workout> ret = new ArrayList<Workout>();
+			while (rs.next()) {
+				Workout sub = new Workout(rs.getInt("FK_User_Id"));
+				sub.setWId(rs.getInt("Workout_Id"));
+				sub.setEId(rs.getInt("FK_Exercise_Id"));
+				if (rs.getString("Workout_Name") != null) {
+					sub.setName(rs.getString("Workout_Name"));
+				}
+				if (rs.getInt("Start_Weight") >= 0) {
+					sub.setSWeight(rs.getInt("Start_Weight"));
+				}
+				if (rs.getInt("End_Weight") >= 0) {
+					sub.setEWeight(rs.getInt("End_Weight"));
+				}
+				if (rs.getInt("Repetitions") >= 0) {
+					sub.setReps(rs.getInt("Repetitions"));
+				}
+				if (rs.getInt("Sets") >= 0) {
+					sub.setSets(rs.getInt("Sets"));
+				}
+				if (rs.getInt("Time_in_Minutes") >= 0) {
+					sub.setTime(rs.getInt("Time_in_Minutes"));
+				}
+				if (rs.getString("Date") != null) {
+					sub.setDate(rs.getString("Date"));
+				}
+				ret.add(sub);
+			}
+			return ret;
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return null;
+	}
+	
+	public ArrayList<Workout> getAllWorkoutforUser(int uId) throws ClassNotFoundException {
+		String sqlSelectAllPersons = "SELECT * FROM workout WHERE FK_User_Id = " + uId;
+		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
+				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);
+				ResultSet rs = ps.executeQuery()) {
+			ArrayList<Workout> ret = new ArrayList<Workout>();
+			while (rs.next()) {
+				Workout sub = new Workout(rs.getInt("FK_User_Id"));
+				sub.setWId(rs.getInt("Workout_Id"));
+				sub.setEId(rs.getInt("FK_Exercise_Id"));
+				if (rs.getString("Workout_Name") != null) {
+					sub.setName(rs.getString("Workout_Name"));
+				}
+				if (rs.getInt("Start_Weight") >= 0) {
+					sub.setSWeight(rs.getInt("Start_Weight"));
+				}
+				if (rs.getInt("End_Weight") >= 0) {
+					sub.setEWeight(rs.getInt("End_Weight"));
+				}
+				if (rs.getInt("Repetitions") >= 0) {
+					sub.setReps(rs.getInt("Repetitions"));
+				}
+				if (rs.getInt("Sets") >= 0) {
+					sub.setSets(rs.getInt("Sets"));
+				}
+				if (rs.getInt("Time_in_Minutes") >= 0) {
+					sub.setTime(rs.getInt("Time_in_Minutes"));
+				}
+				if (rs.getString("Date") != null) {
+					sub.setDate(rs.getString("Date"));
+				}
+				ret.add(sub);
+			}
+			return ret;
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return null;
+	}
+
 
 	public Workout getWorkout(int wId, int eId, int uId) throws ClassNotFoundException {
 		String sqlSelectAllPersons = "SELECT * FROM workout WHERE Workout_Id = " + wId + " && FK_Exercise_Id = " + eId

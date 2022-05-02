@@ -97,7 +97,7 @@ public class ExerciseController {
 		return null;
 	}
 
-	private Exercise getExerciseByExerciseName(String ExerciseName) throws ClassNotFoundException {
+	public Exercise getExerciseByExerciseName(String ExerciseName) throws ClassNotFoundException {
 		String sqlSelectAllPersons = "SELECT * FROM exercise WHERE '" + ExerciseName + "' IN (Exercise_Name)";
 		try (Connection conn = DriverManager.getConnection(this.connectionUrl, this.dbUsername, this.dbPassword);
 				PreparedStatement ps = conn.prepareStatement(sqlSelectAllPersons);

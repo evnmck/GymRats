@@ -54,7 +54,7 @@ public class Login {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("Email");
+		JLabel lblNewLabel = new JLabel("Username");
 		lblNewLabel.setBounds(34, 87, 171, 16);
 		frame.getContentPane().add(lblNewLabel);
 

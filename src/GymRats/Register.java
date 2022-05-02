@@ -17,7 +17,7 @@ import javax.swing.JPasswordField;
 public class Register {
 	private static String connectionUrl = "jdbc:mysql://127.0.0.1:3306/gymrats"; // could be different
 	private static String dbUsername = "root"; // replace with your username (most likely "root")
-	private static String dbPassword = "382628498Mck!"; // replace with your password
+	private static String dbPassword = "@Tuan_1010"; // replace with your password
 
 	protected JFrame frame;
 	private JTextField fNameF;

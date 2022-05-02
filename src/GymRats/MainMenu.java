@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
@@ -76,7 +77,7 @@ public class MainMenu {
 		progressButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				ProgressMenu men = new ProgressMenu(user);
+				ProgressMenu men = new ProgressMenu(user, new ArrayList<String[]>());
 				men.frame.setVisible(true);
 			}
 		});

@@ -75,9 +75,17 @@ public class StartWorkout {
 				if (wName.equals("") || wID.equals("")) {
 					JOptionPane.showMessageDialog(frame, "Invalid Workout Name and/or ID");
 				} else {
-					RecordWorkout rWO = new RecordWorkout(user, wName, wID);
-					rWO.frame.setVisible(true);
-					frame.dispose();
+					RecordWorkout rWO;
+                    try {
+                        rWO = new RecordWorkout(user, wName, wID);
+                        rWO.frame.setVisible(true);
+                        frame.dispose();
+                    }
+                    catch (ClassNotFoundException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+					
 				}
 
 			}
@@ -85,6 +93,7 @@ public class StartWorkout {
 
 		continueButton.setBounds(277, 205, 117, 29);
 		frame.getContentPane().add(continueButton);
+		
 
 		JLabel workIdLabel = new JLabel("Enter workout number:");
 		workIdLabel.setBounds(45, 154, 147, 16);

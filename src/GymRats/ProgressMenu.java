@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
 import javax.swing.JComboBox;
@@ -17,6 +18,10 @@ public class ProgressMenu {
 
 	JFrame frame;
 	static User user;
+	static ArrayList<String[]> progresses = null;
+	private JTable table;
+    DefaultTableModel model;
+
 
 	/**
 	 * Launch the application.
@@ -25,7 +30,7 @@ public class ProgressMenu {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ProgressMenu window = new ProgressMenu(user);
+					ProgressMenu window = new ProgressMenu(user, progresses);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -37,7 +42,8 @@ public class ProgressMenu {
 	/**
 	 * Create the application.
 	 */
-	public ProgressMenu(User user) {
+	public ProgressMenu(User user, ArrayList<String[]> progresses) {
+	    this.progresses = progresses;
 		this.user = user;
 		initialize();
 	}
@@ -55,7 +61,7 @@ public class ProgressMenu {
 		btnEntry.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				PEntryWindow entry = new PEntryWindow(user);
+				PEntryWindow entry = new PEntryWindow(user, progresses);
 				entry.frame.setVisible(true);
 			}
 		});
@@ -67,14 +73,6 @@ public class ProgressMenu {
 		pLbl.setBounds(118, 29, 263, 33);
 		frame.getContentPane().add(pLbl);
 
-		JComboBox progressBox = new JComboBox();
-		progressBox.setBounds(114, 152, 286, 25);
-		frame.getContentPane().add(progressBox);
-
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(48, 221, 400, 136);
-		frame.getContentPane().add(scrollPane);
-
 		JButton btnMenu = new JButton("Main Menu");
 		btnMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -85,5 +83,37 @@ public class ProgressMenu {
 		});
 		btnMenu.setBounds(195, 395, 97, 25);
 		frame.getContentPane().add(btnMenu);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(53, 177, 411, 172);
+		frame.getContentPane().add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		
+        model = new DefaultTableModel();
+        Object [] column = {"Date", "Chest", "Waist", "Hips", "Bicep", "Thigh", "Weight"};
+        
+        for (String[] currR : progresses) {
+            Object[] row = new Object[7];
+            
+            //Object[] row = {exName, weight, sets, reps, startW}; //change this to add exercise
+            model.setColumnIdentifiers(column);
+            table.setModel(model);
+            row[0] = "04-28";
+            row[1] = currR[0];
+            row[2] = currR[1];
+            row[3] = currR[2];
+            row[4] =  currR[3];
+            row[5] =  currR[4];
+            row[6] =  currR[5];
+            model.addRow(row);
+        }
+        
+		
+		
+		for (String[] i : progresses) {
+		    System.out.println(i[0]);
+		}
 	}
 }
